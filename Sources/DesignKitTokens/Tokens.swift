@@ -1,8 +1,14 @@
 import Foundation
 
-/// Umbrella namespace for all primitive design tokens.
-/// Replaced by the full port in Task 2 — this stub only exists so Task 1 builds.
+/// Umbrella namespace for the DesignKit token system.
+///
+/// All static design values (typography, spacing, shape, opacity, animation,
+/// size, fallback palette) live under this enum. Theme-dependent (semantic)
+/// colors live in `DesignKitThemes`' `Theme` type, not here.
+///
+/// This package is the canonical source of these values; the CSS mirror and
+/// per-project generators it descends from are retired.
 public enum Tokens {
-    /// Token schema version, for provenance tracking.
+    /// Tokens schema version. Bumped on backwards-incompatible token changes.
     public static let schemaVersion = "2.0.0"
 }
