@@ -28,6 +28,8 @@ extension Tokens {
         public enum Touch {
             /// 44pt — Apple HIG minimum tappable target.
             public static let min: Double = 44
+            /// 28pt — minimum comfortable pointer target on macOS.
+            public static let minimumMacOS: Double = 28
             /// 48pt — comfortable target.
             public static let comfortable: Double = 48
             /// 52pt — list-row standard.
@@ -65,6 +67,14 @@ extension Tokens {
             public static let tabStrip: Double = 36
             /// 28pt — status bar.
             public static let statusBar: Double = 28
+        }
+
+        /// Fixed layout metrics for workspace chrome.
+        public enum Layout {
+            /// 236pt — sidebar (navigator) width.
+            public static let sidebarWidth: Double = 236
+            /// 328pt — inspector panel width.
+            public static let inspectorWidth: Double = 328
         }
 
         /// Avatar / profile circle sizes.

@@ -33,6 +33,17 @@ struct SizeTests {
         #expect(Tokens.Size.Avatar.xl == 64)
     }
 
+    @Test("layout metrics")
+    func layoutMetrics() {
+        #expect(Tokens.Size.Layout.sidebarWidth == 236)
+        #expect(Tokens.Size.Layout.inspectorWidth == 328)
+    }
+
+    @Test("macOS pointer-target minimum")
+    func macOSTouchMinimum() {
+        #expect(Tokens.Size.Touch.minimumMacOS == 28)
+    }
+
     @Test("control sizing matches CSS source")
     func controlSizes() {
         #expect(Tokens.Size.Control.height == 32)
