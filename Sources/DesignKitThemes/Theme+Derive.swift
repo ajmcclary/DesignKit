@@ -83,19 +83,25 @@ extension Theme {
 
         let resolvedStatus = status ?? Self.defaultStatus(for: appearance)
         let softened = accent.mixed(with: fg, amount: Mix.syntaxSoftened)
+        /// Default syntax colors are guaranteed readable: each is hardened to
+        /// the WCAG large-text floor (3.0:1) against the editor background.
+        /// Caller-supplied `syntax` tables are used verbatim.
+        func readable(_ color: Tokens.Color) -> Tokens.Color {
+            hardened(color, against: bg, appearance: appearance, ratio: 3.0)
+        }
         let resolvedSyntax = syntax ?? [
-            "keyword": SyntaxStyle(color: accent, fontWeight: 600),
-            "string": SyntaxStyle(color: resolvedStatus.success.base),
-            "comment": SyntaxStyle(color: muted, fontStyle: .italic),
-            "function": SyntaxStyle(color: softened),
-            "type": SyntaxStyle(color: softened, fontWeight: 600),
-            "number": SyntaxStyle(color: resolvedStatus.success.base),
-            "constant": SyntaxStyle(color: resolvedStatus.warning.base),
+            "keyword": SyntaxStyle(color: readable(accent), fontWeight: 600),
+            "string": SyntaxStyle(color: readable(resolvedStatus.success.base)),
+            "comment": SyntaxStyle(color: readable(muted), fontStyle: .italic),
+            "function": SyntaxStyle(color: readable(softened)),
+            "type": SyntaxStyle(color: readable(softened), fontWeight: 600),
+            "number": SyntaxStyle(color: readable(resolvedStatus.success.base)),
+            "constant": SyntaxStyle(color: readable(resolvedStatus.warning.base)),
             "property": SyntaxStyle(color: fg),
             "variable": SyntaxStyle(color: fg),
-            "punctuation": SyntaxStyle(color: muted),
-            "tag": SyntaxStyle(color: accent),
-            "attribute": SyntaxStyle(color: softened),
+            "punctuation": SyntaxStyle(color: readable(muted)),
+            "tag": SyntaxStyle(color: readable(accent)),
+            "attribute": SyntaxStyle(color: readable(softened)),
         ]
         let resolvedTerminal = terminal ?? TerminalColors(
             foreground: fg,
