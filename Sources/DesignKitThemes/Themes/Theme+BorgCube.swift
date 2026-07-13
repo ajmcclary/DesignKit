@@ -14,8 +14,8 @@ extension Theme {
                 background: Tokens.Color(hex: 0x020402),
                 foreground: Tokens.Color(hex: 0xD8F5DC),
                 gutterBackground: Tokens.Color(hex: 0x071009),
-                activeLineBackground: Tokens.Color(hex: 0x5EFC8D, alpha: 0.0705882353),
-                highlightedLineBackground: Tokens.Color(hex: 0x27C267, alpha: 0.1294117647),
+                activeLineBackground: Tokens.Color(hex: 0x5EFC8D, alpha: 0.0700),
+                highlightedLineBackground: Tokens.Color(hex: 0x27C267, alpha: 0.1300),
                 activeLineNumber: Tokens.Color(hex: 0x27C267),
                 lineNumber: Tokens.Color(hex: 0x88A38E),
                 invisible: Tokens.Color(hex: 0x132318),
@@ -48,7 +48,7 @@ extension Theme {
             ),
             elements: ElementStates(
                 element: ElementStates.States(background: Tokens.Color(hex: 0x122017), hover: Tokens.Color(hex: 0x17291D), active: Tokens.Color(hex: 0x1D3826), selected: Tokens.Color(hex: 0x1F6B3C), disabled: Tokens.Color(hex: 0x0B120D)),
-                ghostElement: ElementStates.States(background: Tokens.Color(hex: 0x050805, alpha: 0.0), hover: Tokens.Color(hex: 0x5EFC8D, alpha: 0.0941176471), active: Tokens.Color(hex: 0x5EFC8D, alpha: 0.168627451), selected: Tokens.Color(hex: 0x27C267, alpha: 0.2), disabled: Tokens.Color(hex: 0x0B120D, alpha: 0.5333333333))
+                ghostElement: ElementStates.States(background: Tokens.Color(hex: 0x050805, alpha: 0.0), hover: Tokens.Color(hex: 0x5EFC8D, alpha: 0.0940), active: Tokens.Color(hex: 0x5EFC8D, alpha: 0.1680), selected: Tokens.Color(hex: 0x27C267, alpha: 0.2000), disabled: Tokens.Color(hex: 0x0B120D, alpha: 0.5333333333))
             ),
             borders: BorderColors(
                 base: Tokens.Color(hex: 0x183221),
@@ -95,7 +95,7 @@ extension Theme {
                 thumbBorder: Tokens.Color(hex: 0x27C267),
                 thumbHoverBackground: Tokens.Color(hex: 0x5EFC8D, alpha: 0.6666666667)
             ),
-            search: SearchColors(matchBackground: Tokens.Color(hex: 0xFF9933, alpha: 0.4)),
+            search: SearchColors(matchBackground: Tokens.Color(hex: 0xFF9933, alpha: 0.4000)),
             predictive: PredictiveColors(
                 base: Tokens.Color(hex: 0x7B9A82),
                 background: Tokens.Color(hex: 0x27C267, alpha: 0.1215686275),
@@ -115,12 +115,12 @@ extension Theme {
                 Player(cursor: Tokens.Color(hex: 0xFF7373), selection: Tokens.Color(hex: 0xFF7373, alpha: 0.1490196078), background: Tokens.Color(hex: 0xFF7373, alpha: 0.2)),
             ],
             accents: [
-                Tokens.Color(hex: 0x5EFC8D),
-                Tokens.Color(hex: 0x27C267),
-                Tokens.Color(hex: 0x9EFFA8),
-                Tokens.Color(hex: 0x7EC8DE),
-                Tokens.Color(hex: 0xFF9933),
-            ],
+                    Tokens.Color(hex: 0x5EFC8D),
+                    Tokens.Color(hex: 0x27C267),
+                    Tokens.Color(hex: 0x9EFFA8),
+                    Tokens.Color(hex: 0x7EC8DE),
+                    Tokens.Color(hex: 0xFF9933),
+                ],
             syntax: [
                 "attribute": SyntaxStyle(color: Tokens.Color(hex: 0x9EFFA8)),
                 "boolean": SyntaxStyle(color: Tokens.Color(hex: 0x5EFC8D), fontWeight: 700),
@@ -176,8 +176,8 @@ extension Theme {
                 background: Tokens.Color(hex: 0xFBFFF9),
                 foreground: Tokens.Color(hex: 0x1D2A22),
                 gutterBackground: Tokens.Color(hex: 0xE3ECE6),
-                activeLineBackground: Tokens.Color(hex: 0x2FA85B, alpha: 0.0705882353),
-                highlightedLineBackground: Tokens.Color(hex: 0x5EFC8D, alpha: 0.1411764706),
+                activeLineBackground: Tokens.Color(hex: 0x2FA85B, alpha: 0.0700),
+                highlightedLineBackground: Tokens.Color(hex: 0x5EFC8D, alpha: 0.1400),
                 activeLineNumber: Tokens.Color(hex: 0x1D6338),
                 lineNumber: Tokens.Color(hex: 0x3F5044),
                 invisible: Tokens.Color(hex: 0xB7C8BB),
@@ -210,7 +210,7 @@ extension Theme {
             ),
             elements: ElementStates(
                 element: ElementStates.States(background: Tokens.Color(hex: 0xD7E7DB), hover: Tokens.Color(hex: 0xC9DFCE), active: Tokens.Color(hex: 0xB7D5BE), selected: Tokens.Color(hex: 0x5EFC8D), disabled: Tokens.Color(hex: 0xEDF4EF)),
-                ghostElement: ElementStates.States(background: Tokens.Color(hex: 0xF4FAF5, alpha: 0.0), hover: Tokens.Color(hex: 0x2FA85B, alpha: 0.0941176471), active: Tokens.Color(hex: 0x2FA85B, alpha: 0.1568627451), selected: Tokens.Color(hex: 0x5EFC8D, alpha: 0.2274509804), disabled: Tokens.Color(hex: 0xEDF4EF, alpha: 0.5333333333))
+                ghostElement: ElementStates.States(background: Tokens.Color(hex: 0xF4FAF5, alpha: 0.0), hover: Tokens.Color(hex: 0x2FA85B, alpha: 0.0940), active: Tokens.Color(hex: 0x2FA85B, alpha: 0.1570), selected: Tokens.Color(hex: 0x5EFC8D, alpha: 0.2270), disabled: Tokens.Color(hex: 0xEDF4EF, alpha: 0.5333333333))
             ),
             borders: BorderColors(
                 base: Tokens.Color(hex: 0x78947F),
@@ -257,7 +257,7 @@ extension Theme {
                 thumbBorder: Tokens.Color(hex: 0x1F6B3C),
                 thumbHoverBackground: Tokens.Color(hex: 0x2FA85B, alpha: 0.6666666667)
             ),
-            search: SearchColors(matchBackground: Tokens.Color(hex: 0xFF9933, alpha: 0.4705882353)),
+            search: SearchColors(matchBackground: Tokens.Color(hex: 0xFF9933, alpha: 0.4700)),
             predictive: PredictiveColors(
                 base: Tokens.Color(hex: 0x536A59),
                 background: Tokens.Color(hex: 0x5EFC8D, alpha: 0.2),
@@ -277,12 +277,12 @@ extension Theme {
                 Player(cursor: Tokens.Color(hex: 0xEF5A5A), selection: Tokens.Color(hex: 0xEF5A5A, alpha: 0.1490196078), background: Tokens.Color(hex: 0xEF5A5A, alpha: 0.2)),
             ],
             accents: [
-                Tokens.Color(hex: 0x237C43),
-                Tokens.Color(hex: 0x027C27),
-                Tokens.Color(hex: 0x1F6B3C),
-                Tokens.Color(hex: 0x24738B),
-                Tokens.Color(hex: 0x4A5766),
-            ],
+                    Tokens.Color(hex: 0x237C43),
+                    Tokens.Color(hex: 0x027C27),
+                    Tokens.Color(hex: 0x1F6B3C),
+                    Tokens.Color(hex: 0x24738B),
+                    Tokens.Color(hex: 0x4A5766),
+                ],
             syntax: [
                 "attribute": SyntaxStyle(color: Tokens.Color(hex: 0x1D6338)),
                 "boolean": SyntaxStyle(color: Tokens.Color(hex: 0x2FA85B), fontWeight: 700),
