@@ -35,6 +35,27 @@ struct ThemeCatalogTests {
         #expect(t.style.syntax["keyword"]?.fontWeight == 700)
     }
 
+    @Test("catalog enumerates all 24 themes with unique ids")
+    func catalogEnumeratesAllThemes() {
+        #expect(Theme.all.count == 24)
+        #expect(Set(Theme.all.map(\.id)).count == 24)
+    }
+
+    @Test("default theme is LCARS Dark")
+    func defaultThemeIsLCARSDark() {
+        #expect(Theme.default == Theme.lcarsDark)
+    }
+
+    @Test("every family resolves both appearances")
+    func everyFamilyResolvesBothAppearances() {
+        #expect(Theme.Family.allCases.count == 12)
+        for family in Theme.Family.allCases {
+            #expect(family.theme(for: .dark).appearance == .dark, "\(family.rawValue)")
+            #expect(family.theme(for: .light).appearance == .light, "\(family.rawValue)")
+            #expect(!family.displayName.isEmpty)
+        }
+    }
+
     @Test("all 22 Zed Trek themes exist with unique names")
     func twentyTwoZedTrekThemesExist() {
         let all: [Theme] = [
