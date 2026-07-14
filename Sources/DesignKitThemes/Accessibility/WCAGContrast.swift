@@ -4,14 +4,12 @@ import Foundation
 /// WCAG 2.1 contrast math over sRGB token colors.
 public enum WCAG {
     /// Relative luminance per WCAG 2.1.
+    ///
+    /// Thin alias over ``ForegroundContrast/luminance(red:green:blue:model:)``
+    /// with ``LuminanceModel/wcagRelative`` so the gamma-linearization formula
+    /// lives in exactly one place.
     public static func relativeLuminance(_ color: Tokens.Color) -> Double {
-        func channel(_ byte: UInt8) -> Double {
-            let c = Double(byte) / 255.0
-            return c <= 0.04045 ? c / 12.92 : pow((c + 0.055) / 1.055, 2.4)
-        }
-        return 0.2126 * channel(color.red)
-            + 0.7152 * channel(color.green)
-            + 0.0722 * channel(color.blue)
+        color.luminance(.wcagRelative)
     }
 
     /// Contrast ratio (1...21), symmetric in its arguments. Alpha is ignored:
