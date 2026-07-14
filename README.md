@@ -33,3 +33,7 @@ ContentView().designTheme(.lcarsDark)
 Themes: 12 families × light/dark (`Theme.Family.allCases`), default
 `Theme.lcarsDark`. Build custom themes from primary colors with
 `Theme.derive(name:appearance:background:foreground:accent:)`.
+
+## License
+
+MIT — see [LICENSE](LICENSE).
