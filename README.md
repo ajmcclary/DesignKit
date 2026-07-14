@@ -6,8 +6,9 @@ Shared design system for CodeEditorPlugin, DiagramKit, and RepoPrompt.
 - `DesignKitThemes` — semantic themes (Zed Trek families + Classic), accessibility resolution, SwiftUI/AppKit/UIKit bridges. Re-exports DesignKitTokens.
 
 Swift is the source of truth: theme values were transcribed once from
-CodeEditorPlugin's `zed-trek.json` via `Scripts/bootstrap-themes` and are
-maintained as Swift constants from now on.
+CodeEditorPlugin's `zed-trek.json` by a one-time bootstrap tool (removed
+after the transcription landed) and are maintained as Swift constants from
+now on.
 
 ## Usage
 

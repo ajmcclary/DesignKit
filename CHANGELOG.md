@@ -3,7 +3,16 @@
 All notable changes to DesignKit are documented here. This project adheres to
 [Semantic Versioning](https://semver.org/).
 
-## [1.2.0] - Unreleased
+## [Unreleased]
+
+### Removed
+
+- `Scripts/bootstrap-themes`, the one-time theme-transcription tool. It had
+  served its purpose (the 12 themes are maintained as Swift constants) and
+  its manifest reached into CodeEditorPlugin via `.package(path:)`,
+  contradicting DesignKit's standalone boundary.
+
+## [1.2.0] - 2026-07-13
 
 Additive release. No token values changed; no existing API changed shape.
 
