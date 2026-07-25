@@ -4,7 +4,7 @@ extension Tokens {
     /// sRGB color with alpha. UI-framework agnostic.
     ///
     /// Bridging to `SwiftUI.Color`, `NSColor`, or `UIColor` lives in
-    /// `CodeEditorPlugin`/`CodeEditorUI`, not here.
+    /// `CodeEditorKit`/`CodeEditorUI`, not here.
     public struct Color: Hashable, Sendable, Codable {
         /// Red component, 0–255.
         public let red: UInt8

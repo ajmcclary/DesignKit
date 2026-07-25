@@ -1,6 +1,6 @@
 # DesignKit
 
-Shared design system for CodeEditorPlugin, DiagramKit, and RepoPrompt.
+Shared design system for CodeEditorKit, DiagramKit, and RepoPrompt.
 
 - `DesignKitTokens` — primitive tokens (spacing, shape, typography, size, opacity, elevation, motion, fallback palette). Foundation-only.
 - `DesignKitThemes` — semantic themes (Zed Trek families + Classic), accessibility resolution, SwiftUI/AppKit/UIKit bridges. Re-exports DesignKitTokens.

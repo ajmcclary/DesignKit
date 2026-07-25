@@ -4,7 +4,7 @@ extension Tokens {
     /// Cubic-bezier easing expressed as four control points.
     ///
     /// Bridging to `SwiftUI.Animation.timingCurve(...)` lives in
-    /// `CodeEditorPlugin`, not here.
+    /// `CodeEditorKit`, not here.
     public struct Easing: Hashable, Sendable, Codable {
         /// First control-point x coordinate.
         public let x1: Double
