@@ -2,14 +2,15 @@
 import PackageDescription
 
 let swiftSettings: [SwiftSetting] = [
+    .swiftLanguageMode(.v6),
     .enableExperimentalFeature("StrictConcurrency")
 ]
 
 let package = Package(
     name: "DesignKit",
     platforms: [
-        .macOS(.v26),
-        .iOS(.v26),
+        .macOS("27.0"),
+        .iOS("27.0")
     ],
     products: [
         .library(name: "DesignKitTokens", targets: ["DesignKitTokens"]),

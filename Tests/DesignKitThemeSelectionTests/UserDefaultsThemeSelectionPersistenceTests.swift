@@ -8,15 +8,22 @@ final class UserDefaultsThemeSelectionPersistenceTests: XCTestCase {
     private var suiteName: String!
     private var defaults: UserDefaults!
 
-    override func setUp() {
-        super.setUp()
+    // `setUp()`/`tearDown()` are nonisolated in XCTest, so a synchronous
+    // override cannot inherit this class's `@MainActor` isolation and touching
+    // `suiteName`/`defaults` from one is a Swift 6 isolation violation. The
+    // `async` overrides DO inherit the class isolation (an actor-isolated async
+    // override of a nonisolated async method is legal — the caller awaits the
+    // hop), which puts the fixture's lifecycle on the same actor as the test
+    // bodies that read it. Same work, same ordering, one owner.
+    override func setUp() async throws {
+        try await super.setUp()
         suiteName = "test.themeSelection.\(UUID().uuidString)"
         defaults = UserDefaults(suiteName: suiteName)
     }
 
-    override func tearDown() {
+    override func tearDown() async throws {
         defaults.removePersistentDomain(forName: suiteName)
-        super.tearDown()
+        try await super.tearDown()
     }
 
     func test_nothingPersisted_loadsNil() {
