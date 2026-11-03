@@ -1,0 +1,279 @@
+{
+  "version": 1,
+  "description": "Maintained semantic overrides. Imported tokens.json and kit CSS are reference inputs; edit this file for supported browser control colors. Values omitted in a theme inherit the dark base.",
+  "tokens": [
+    {
+      "name": "bg",
+      "value": {
+        "light": "#1e1e1e",
+        "root-light": "#ffffff"
+      },
+      "usage": "The page ground. Opaque content surfaces only \u2014 chrome uses the materials and Liquid Glass layers, never these steps. `fg` reads 12.3:1 on it (15.1:1 in Root Light)."
+    },
+    {
+      "name": "bg-secondary",
+      "value": {
+        "light": "#262627",
+        "root-light": "#f6f6f6"
+      },
+      "usage": "One step up from `bg`: cards, grouped rows, the inspector ground. `fg` 11.3:1, `fg-secondary` 5.6:1."
+    },
+    {
+      "name": "bg-tertiary",
+      "value": {
+        "light": "#2e2e30",
+        "root-light": "#ececee"
+      },
+      "usage": "Two steps up from `bg`: wells, nested groups, the recessed track behind a control."
+    },
+    {
+      "name": "bg-elevated",
+      "value": {
+        "light": "#2a2a2b",
+        "root-light": "#ffffff"
+      },
+      "usage": "The lifted surface \u2014 popovers, menus, sheets, anything carrying `shadow-elevated` or heavier. `fg` 10.8:1."
+    },
+    {
+      "name": "fg",
+      "value": {
+        "light": "rgba(255,255,255,0.85)",
+        "root-light": "rgba(0,0,0,0.85)"
+      },
+      "usage": "Primary text and glyphs on `bg`, `bg-secondary`, `bg-tertiary` and `bg-elevated` \u2014 12.3:1 on `bg` and 10.2:1 at worst in the base theme, 15.1:1 and 13.3:1 at worst in Root Light. Never `Color.gray`."
+    },
+    {
+      "name": "fg-secondary",
+      "value": {
+        "light": "rgba(255,255,255,0.55)",
+        "root-light": "rgba(0,0,0,0.56)"
+      },
+      "usage": "Secondary text \u2014 subtitles, metadata, column values \u2014 on any of the four surfaces: 5.3:1 at worst in the base theme, 4.7:1 in Root Light. Still real copy, so it stays above the 4.5:1 floor."
+    },
+    {
+      "name": "fg-tertiary",
+      "value": {
+        "light": "rgba(255,255,255,0.25)",
+        "root-light": "rgba(0,0,0,0.25)"
+      },
+      "usage": "De-emphasised marks on `bg`: overlines, separator glyphs, placeholder rules. 2.3:1 in the base theme, 1.8:1 in Root Light \u2014 decorative only, never text that has to be read."
+    },
+    {
+      "name": "fg-disabled",
+      "value": {
+        "light": "rgba(255,255,255,0.15)",
+        "root-light": "rgba(0,0,0,0.18)"
+      },
+      "usage": "Disabled label colour on `bg` and `bg-secondary`. 1.6:1 by design (1.5:1 in Root Light) \u2014 WCAG exempts disabled controls, but pair it with a disabled affordance, never colour alone."
+    },
+    {
+      "name": "accent",
+      "value": {
+        "light": "#0a99ff",
+        "root-light": "#0078f0"
+      },
+      "usage": "The system's one accent \u2014 the macOS 27 window blue, `#0a99ff` on the dark base and `#0078f0` in Root Light. Links, selection, focus rings, progress fills and the primary button. Never re-pick the hue: tint it with the `accent-op-*` ladder. As a mark or ring it clears 3:1 on every surface. As text it reads 5.6:1 on `bg` in the base theme (4.5:1 at worst, on `bg-tertiary`) but only 4.3:1 on white in Root Light, so use `accent-text` for accent-coloured copy."
+    },
+    {
+      "name": "accent-text",
+      "value": {
+        "light": "{accent}",
+        "root-light": "#0064d6"
+      },
+      "usage": "Accent-coloured text on `bg`, `bg-secondary`, `bg-tertiary` and `bg-elevated`: 4.5:1 at worst in the base theme; darkened to `#0064d6` in Root Light (4.7:1 at worst, 5.5:1 on white), where the plain `accent` does not clear 4.5:1."
+    },
+    {
+      "name": "accent-contrast",
+      "value": {
+        "light": "#ffffff"
+      },
+      "usage": "White. Text and glyphs on a full-strength accent fill: 4.9:1 on `btn-primary-fill` (5.5:1 in Root Light) and 5.3:1 or better on `table-selected-active`. Never set it on raw `accent` (3.0:1 in the base theme, 4.3:1 in Root Light); use `btn-primary-fill` as the ground. On `status-error` it is 3.4:1, so keep that pairing to 19px+ bold or 24px+ text."
+    },
+    {
+      "name": "status-success",
+      "value": {
+        "light": "#30d158",
+        "root-light": "#299b45"
+      },
+      "usage": "systemGreen. The success FILL \u2014 dots, rings, bar segments, pill backgrounds. Darkened to `#299b45` in Root Light so it clears 3:1 on every surface (3.6:1 on white). Not text: use `status-success-fg` for the label, and say the word as well as the colour."
+    },
+    {
+      "name": "status-success-fg",
+      "value": {
+        "light": "{status-success}",
+        "root-light": "#1e7b34"
+      },
+      "usage": "Success TEXT and glyphs on `bg`, `bg-secondary`, `bg-tertiary` and `bg-elevated` \u2014 8.3:1 on `bg` in the base theme, 5.3:1 on white in Root Light (4.5:1 at worst)."
+    },
+    {
+      "name": "status-warning",
+      "value": {
+        "light": "#ff9f0a",
+        "root-light": "#c57300"
+      },
+      "usage": "systemOrange. The warning FILL \u2014 dots, rings, pill backgrounds. Darkened to `#c57300` in Root Light so it clears 3:1 on every surface (3.6:1 on white). Not text: use `status-warning-fg`. Aliased by `status-paused`."
+    },
+    {
+      "name": "status-warning-fg",
+      "value": {
+        "light": "{status-warning}",
+        "root-light": "#8a5300"
+      },
+      "usage": "Warning TEXT and glyphs on `bg`, `bg-secondary`, `bg-tertiary` and `bg-elevated` \u2014 8.1:1 on `bg` in the base theme, 6.3:1 on white in Root Light."
+    },
+    {
+      "name": "status-error",
+      "value": {
+        "light": "#ff453a",
+        "root-light": "#ff3b30"
+      },
+      "usage": "systemRed. The error FILL \u2014 dots, rings, destructive button backgrounds. Clears 3:1 on every surface; as text it is 4.9:1 on `bg` but 3.6:1 on white in Root Light, so use `status-error-fg` for error copy."
+    },
+    {
+      "name": "status-error-fg",
+      "value": {
+        "light": "#ff6961",
+        "root-light": "#b8201a"
+      },
+      "usage": "Error TEXT and glyphs on `bg`, `bg-secondary`, `bg-tertiary` and `bg-elevated` \u2014 5.9:1 on `bg` in the base theme (4.8:1 at worst), 6.4:1 on white in Root Light, and 4.9:1 on a grey control fill (`fills-tertiary` over white, the alert and bordered-button grounds). Root Light deepened from #c4231c on 2026-10-11, which read 4.5:1 there."
+    },
+    {
+      "name": "btn-primary-fill",
+      "value": {
+        "light": "#0a6fd6",
+        "root-light": "#0064d6"
+      },
+      "usage": "Primary button fill, a darkened accent so `accent-contrast` clears 4.5:1 on it \u2014 4.9:1 in the base theme, 5.5:1 in Root Light."
+    },
+    {
+      "name": "btn-primary-on",
+      "value": {
+        "light": "#ffffff"
+      },
+      "usage": "Label and glyph colour on `btn-primary-fill`. White, 4.9:1 (5.5:1 in Root Light)."
+    },
+    {
+      "name": "btn-destructive-fill",
+      "value": {
+        "light": "#d0302a",
+        "root-light": "#c4231c"
+      },
+      "usage": "Fill of a prominent destructive button (Delete, Remove), a darkened system red so `btn-primary-on` clears 4.5:1 on it \u2014 5.1:1 in the base theme, 5.8:1 in Root Light. Raw `status-error` / systemRed under white is 3.4\u20133.6:1. Label it with `btn-primary-on`; destructive text without a fill is `status-error-fg`."
+    },
+    {
+      "name": "btn-secondary-fill",
+      "value": {
+        "light": "rgba(255, 255, 255, 0.08)",
+        "root-light": "rgba(0, 0, 0, 0.06)"
+      },
+      "usage": "Secondary button fill, 8% ink in the base theme and 6% in Root Light."
+    },
+    {
+      "name": "btn-secondary-on",
+      "value": {
+        "light": "{fg1}"
+      },
+      "usage": "Label on `btn-secondary-fill`, alias of `fg1`. 8.2:1 at worst in the base theme, 11.9:1 in Root Light."
+    },
+    {
+      "name": "btn-secondary-border",
+      "value": {
+        "light": "rgba(255, 255, 255, 0.15)",
+        "root-light": "rgba(0, 0, 0, 0.15)"
+      },
+      "usage": "Secondary button border, 15% ink, drawn at `stroke-hairline`."
+    },
+    {
+      "name": "btn-tonal-fill",
+      "value": {
+        "light": "#0a99ff33",
+        "root-light": "#0078f026"
+      },
+      "usage": "Tonal button fill \u2014 accent at ~20% in the base theme, 15% in Root Light."
+    },
+    {
+      "name": "btn-tonal-on",
+      "value": {
+        "light": "#4ab4ff",
+        "root-light": "#005dba"
+      },
+      "usage": "Label on `btn-tonal-fill` \u2014 the accent hue lightened to `#4ab4ff` in the base theme and darkened to `#005dba` in Root Light, so the label clears 4.5:1 with the fill over any of the four surfaces."
+    },
+    {
+      "name": "field-bg",
+      "value": {
+        "light": "{bg-surface}",
+        "root-light": "#ffffff"
+      },
+      "usage": "Text-field ground. Follows `bg-surface` in the base theme and goes pure white in Root Light so a field reads as an inset well."
+    },
+    {
+      "name": "field-border",
+      "value": {
+        "light": "rgba(255, 255, 255, 0.40)",
+        "root-light": "rgba(0, 0, 0, 0.50)"
+      },
+      "usage": "Resting field border at `stroke-thin` (1px) \u2014 the one place the system uses 1px rather than a hairline. 40% ink in the base theme, 50% in Root Light, so the edge, drawn over `field-bg`, clears 3:1 against every surface: 3.3:1 at worst in the base theme and 3.35:1 in Root Light (both on `bg-tertiary`). Raised from 35% / 43% on 2026-10-11, which read 2.8:1 and 2.7:1 there."
+    },
+    {
+      "name": "field-border-hover",
+      "value": {
+        "light": "rgba(255, 255, 255, 0.44)",
+        "root-light": "rgba(0, 0, 0, 0.52)"
+      },
+      "usage": "Field border under the pointer, one step stronger than `field-border`."
+    },
+    {
+      "name": "field-border-focus",
+      "value": {
+        "light": "{accent}"
+      },
+      "usage": "Focused field border, alias of `accent`. The 2px `focus-ring` sits 2px outside it."
+    },
+    {
+      "name": "field-border-error",
+      "value": {
+        "light": "{status-error}"
+      },
+      "usage": "Invalid field border, alias of `status-error`. Always accompanied by an error message \u2014 never colour alone."
+    },
+    {
+      "name": "control-border",
+      "value": {
+        "light": "{field-border}"
+      },
+      "usage": "The 1px edge of an unchecked checkbox or radio button, drawn inside its `field-bg` box (alias of `field-border`). Clears 3:1 against every surface in both themes, so the empty control is identifiable without its label. Never a 0.5px hairline or `border-subtle` for these: at 20\u201325% they read 1.3\u20132.9:1."
+    },
+    {
+      "name": "switch-track-off",
+      "value": {
+        "light": "rgba(120,120,128,0.36)",
+        "root-light": "rgba(0,0,0,0.45)"
+      },
+      "usage": "Track of a switch in the off position, under the white thumb (on is `accent`). Root Light: 45% ink, so the track clears 3:1 against every surface (3.25:1 at worst, on `bg-tertiary`) and the thumb clears 3:1 against the track (3.4:1 at worst) \u2014 Apple's Increase Contrast treatment. Base theme: Apple's dark systemFill; the white thumb reads 9:1 or better against the track and the surface. Replaces `fill-primary` or `fg` mixed at 22\u201324%, which read 1.6\u20131.8:1 in Root Light."
+    },
+    {
+      "name": "border-strong",
+      "value": {
+        "light": "rgba(255, 255, 255, 0.35)",
+        "root-light": "rgba(0, 0, 0, 0.43)"
+      },
+      "usage": "35% ink in the base theme, 43% in Root Light \u2014 the emphasis border for a focused group, a drag target or a high-contrast separator. Clears 3:1 on every surface, so it can carry state on its own. Never a hard hex."
+    },
+    {
+      "name": "row-selected",
+      "value": {
+        "light": "#0a99ff26",
+        "root-light": "#0078f01a"
+      },
+      "usage": "Selected-row tint \u2014 accent at 15% in the base theme, 10% in Root Light. Pair it with a full-strength accent icon; the tint alone is not a status."
+    },
+    {
+      "name": "focus-ring",
+      "value": {
+        "light": "{accent}"
+      },
+      "usage": "The focus ring, alias of `accent`, drawn `focus-ring-width` (2px) OUTSIDE the control with a `focus-ring-offset` (2px) gap, so it never eats the hit target."
+    }
+  ]
+}
