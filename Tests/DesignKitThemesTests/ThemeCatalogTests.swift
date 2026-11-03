@@ -41,4 +41,12 @@ struct ThemeCatalogTests {
         #expect(t.glass.onAccent.hexString == "#FFFFFF")   // accent-contrast has no light value
         #expect(t.style.terminal?.ansi?.red?.hexString == "#F44747") // ansi-* inherit the dark base
     }
+
+    @Test("current-line highlight is distinguishable from the text selection")
+    func activeLineIsNotTheSelectionColour() {
+        for theme in Theme.all {
+            #expect(theme.style.editor.activeLineBackground != theme.style.players[0].selection, "\(theme.name)")
+            #expect(theme.style.editor.highlightedLineBackground != theme.style.editor.activeLineBackground, "\(theme.name)")
+        }
+    }
 }

@@ -164,8 +164,8 @@ def _render_theme(tokens, name, theme, appearance):
         f"            background: {c('bg')},",
         f"            foreground: {c('fg')},",
         f"            gutterBackground: {c('bg')},",
-        f"            activeLineBackground: {c('row-selected')},",
-        f"            highlightedLineBackground: {c('fill-tertiary')},",
+        f"            activeLineBackground: {c('fill-tertiary')},",   # neutral: must differ from the selection (row-selected)
+        f"            highlightedLineBackground: {c('fill-secondary')},",
         f"            activeLineNumber: {c('fg')},",
         f"            lineNumber: {c('fg-tertiary')},",
         f"            invisible: {c('fg-disabled')},",

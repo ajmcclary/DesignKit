@@ -5,6 +5,17 @@ All notable changes to DesignKit are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [3.0.0-beta.2] - 2026-11-03
+
+Value-only change to the generated mapping.
+
+### Changed
+
+- `editor.activeLineBackground` is now the neutral `fill-tertiary` and
+  `editor.highlightedLineBackground` is `fill-secondary`; both were
+  accent-tinted and the current line was indistinguishable from the text
+  selection (`players[0].selection`, still `row-selected`).
+
 ## [3.0.0-beta.1] - 2026-11-03
 
 Breaking release: the ZedTrek theme family is gone and the theme pair is
