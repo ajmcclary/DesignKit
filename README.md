@@ -3,12 +3,21 @@
 Shared design system for CodeEditorKit, DiagramKit, and RepoPrompt.
 
 - `DesignKitTokens` — primitive tokens (spacing, shape, typography, size, opacity, elevation, motion, fallback palette). Foundation-only.
-- `DesignKitThemes` — semantic themes (Zed Trek families + Classic), accessibility resolution, SwiftUI/AppKit/UIKit bridges. Re-exports DesignKitTokens.
+- `DesignKitThemes` — the semantic theme pair (`Theme.dark`, `Theme.light`), accessibility resolution, SwiftUI/AppKit/UIKit bridges. Re-exports DesignKitTokens.
+- `DesignKitThemeSelection` / `DesignKitThemeSelectionUI` — the user's appearance preference (System / Light / Dark), its persistence and controller, and the SwiftUI installation modifier.
 
-Swift is the source of truth: theme values were transcribed once from
-CodeEditorPlugin's `zed-trek.json` by a one-time bootstrap tool (removed
-after the transcription landed) and are maintained as Swift constants from
-now on.
+The theme values are generated from the Apple Systems design system's token
+files (`semantic.json`, `tokens.json`, `type-scales.json`), vendored under
+`Scripts/token-sources/` with the design-system commit recorded in
+`SOURCE.md`. `Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift` is the
+generated output and is committed; never edit it by hand.
+
+- Refresh from a local Platform checkout:
+  `python3 -I Scripts/generate-themes.py --sync --design-system <Platform>/projects/design-system`
+- Verify the committed Swift matches the vendored sources (CI runs this):
+  `python3 -I Scripts/generate-themes.py --check`
+- The role-to-token mapping lives in `render()` inside the generator; change
+  it there, regenerate, and review the Swift diff.
 
 ## Usage
 
@@ -28,12 +37,12 @@ struct Sidebar: View {
 }
 
 // At the window root (folds in the system accessibility environment):
-ContentView().designTheme(.lcarsDark)
+ContentView().designTheme(.dark)
 ```
 
-Themes: 12 families × light/dark (`Theme.Family.allCases`), default
-`Theme.lcarsDark`. Build custom themes from primary colors with
-`Theme.derive(name:appearance:background:foreground:accent:)`.
+Themes: `Theme.all == [.dark, .light]`, `Theme.default == .dark`,
+`Theme.theme(for:)` picks by appearance. Build custom themes from primary
+colors with `Theme.derive(name:appearance:background:foreground:accent:)`.
 
 ## License
 

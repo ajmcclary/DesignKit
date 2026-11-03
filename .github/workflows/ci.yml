@@ -49,6 +49,10 @@ jobs:
         run: swift build
       - name: swift test
         run: swift test
+      - name: Scripts/generate-themes.py --check
+        run: python3 -I Scripts/generate-themes.py --check
+      - name: Scripts/generate-themes-tests.py
+        run: python3 -I Scripts/generate-themes-tests.py
       - name: Crash reports (on failure)
         if: failure()
         run: |
