@@ -69,5 +69,21 @@ class Emission(unittest.TestCase):
             self.assertIn(f'"{key}": SyntaxStyle(', swift)
 
 
+class Check(unittest.TestCase):
+    def test_generatorCheckFailsOnDrift(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
+            out = Path(tmp) / "Theme+ReadyRoom.swift"
+            self.assertEqual(main(["--sources", str(sources), "--output", str(out)]), 0)
+            self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out)]), 0)
+            sem = json.loads((sources / "semantic.json").read_text())
+            next(t for t in sem["tokens"] if t["name"] == "accent")["value"]["light"] = "#5a9dd8"
+            (sources / "semantic.json").write_text(json.dumps(sem))
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out)]), 1)
+            self.assertIn("Theme+ReadyRoom.swift", err.getvalue())
+            self.assertIn("0x5A9DD8", err.getvalue())
+
+
 if __name__ == "__main__":
     unittest.main()
