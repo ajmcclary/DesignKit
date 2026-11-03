@@ -13,7 +13,7 @@ struct ConformanceTests {
         _ = Tokens.Shape.radiusMD
         _ = Tokens.Typography.Size.bodySM
         _ = Tokens.Size.Icon.md
-        _ = Tokens.Size.Layout.sidebarWidth
+        _ = Tokens.Size.Layout.sidebarIdeal
         _ = Tokens.Size.Touch.minimumMacOS
         _ = Tokens.Opacity.glassFill
         _ = Tokens.Elevation.popover(.dark)

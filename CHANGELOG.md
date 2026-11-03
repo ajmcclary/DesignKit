@@ -5,6 +5,23 @@ All notable changes to DesignKit are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [3.0.0-beta.3] - 2026-11-03
+
+Additive: layout metrics generated from the design system.
+
+### Added
+
+- `Tokens.Size.Layout` is now generated (`Sources/DesignKitTokens/Size+Layout.swift`)
+  from the design system's `layout-*` tokens: window size and minimum, sidebar
+  min/ideal/max (200/220/300), detail minimum (700), inspector min/ideal/max/step
+  (280/300/420/16), popover and sheet sizes. `generate-themes.py` vendors
+  `platform.css` for the two layout tokens it carries (inspector ideal and step),
+  and `--check` covers both generated files.
+
+### Deprecated
+
+- `Tokens.Size.Layout.sidebarWidth` (236) and `.inspectorWidth` (328); removed in 3.0.0.
+
 ## [3.0.0-beta.2] - 2026-11-03
 
 Value-only change to the generated mapping.

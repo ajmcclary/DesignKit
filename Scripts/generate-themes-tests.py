@@ -75,15 +75,52 @@ class Check(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
             out = Path(tmp) / "Theme+ReadyRoom.swift"
-            self.assertEqual(main(["--sources", str(sources), "--output", str(out)]), 0)
-            self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out)]), 0)
+            self.assertEqual(main(["--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 0)
+            self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 0)
             sem = json.loads((sources / "semantic.json").read_text())
             next(t for t in sem["tokens"] if t["name"] == "accent")["value"]["light"] = "#5a9dd8"
             (sources / "semantic.json").write_text(json.dumps(sem))
             with contextlib.redirect_stderr(io.StringIO()) as err:
-                self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out)]), 1)
+                self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 1)
             self.assertIn("Theme+ReadyRoom.swift", err.getvalue())
             self.assertIn("0x5A9DD8", err.getvalue())
+
+
+class Layout(unittest.TestCase):
+    def test_layout_tokens_parsed(self):
+        layout = generate_themes.load_layout(SOURCES_DIR)
+        self.assertEqual(layout["layout-sidebar-ideal"], 220)
+        self.assertEqual(layout["layout-inspector-ideal"], 300)  # platform.css, not tokens.json
+        self.assertEqual(layout["layout-window-min-w"], 960)
+
+    def test_layout_render(self):
+        swift = generate_themes.render_layout(generate_themes.load_layout(SOURCES_DIR), source_commit="9fa9816f")
+        self.assertIn("9fa9816f", swift.splitlines()[0])
+        self.assertIn("public static let sidebarIdeal: Double = 220", swift)
+        self.assertIn("public static let inspectorStep: Double = 16", swift)
+        for identifier in generate_themes.LAYOUT_MAP.values():
+            self.assertIn(f"public static let {identifier}: Double = ", swift)
+
+    def test_unknown_layout_token_rejected(self):
+        layout = generate_themes.load_layout(SOURCES_DIR)
+        del layout["layout-detail-min"]
+        with self.assertRaises(UnresolvableToken) as cm:
+            generate_themes.render_layout(layout, source_commit="x")
+        self.assertIn("layout-detail-min", str(cm.exception))
+
+    def test_check_covers_layout_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
+            out = Path(tmp) / "Theme+ReadyRoom.swift"
+            layout_out = Path(tmp) / "Size+Layout.swift"
+            argv = ["--sources", str(sources), "--output", str(out), "--layout-output", str(layout_out)]
+            self.assertEqual(main(argv), 0)
+            self.assertEqual(main(["--check"] + argv), 0)
+            css = (sources / "platform.css").read_text().replace("--layout-inspector-ideal: 300px", "--layout-inspector-ideal: 312px")
+            (sources / "platform.css").write_text(css)
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(main(["--check"] + argv), 1)
+            self.assertIn("Size+Layout.swift", err.getvalue())
 
 
 if __name__ == "__main__":

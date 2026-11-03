@@ -1,0 +1,205 @@
+/* Apple Systems — platform layer (2026-10-13). Load right after tokens.css.
+   Re-points targets, rows and type roles by data-platform, and adds material roles, interaction states and the
+   touch hit area. Values: HIG Typography tables (fetched 2026-10-13), README §5–§10. */
+
+/* 1 · additions that live outside tokens.json (its spacing and other families are at their 60-token limit) */
+:root {
+  --sp-inline: var(--sp-sm);
+  --sp-section-padding: var(--sp-xxxl);
+  --focus-ring-width: 2px;
+  --focus-ring-offset: 2px;
+  --layout-inspector-ideal: 300px;
+  --layout-inspector-step: 16px;
+  --device-radius-phone: 55px;
+  --device-radius-watch: 44px;
+  --device-bezel: #1c1c1e;
+  --device-shadow: 0 30px 80px rgba(0, 0, 0, .6);
+  /* default platform = macOS until a board sets data-platform */
+  --target-min: 0px; --row-min: 24px; --type-scale: 1;
+}
+
+/* 2 · platforms */
+[data-platform="macos"]    { --target-min: 0px;  --row-min: 24px; --type-scale: 1; }
+[data-platform="ios"],
+[data-platform="ipados"]   { --touch-min: 44px; --target-min: var(--touch-min); --row-min: var(--touch-min); }
+[data-platform="visionos"] { --touch-min: 60px; --target-min: 60px; --row-min: 60px; --type-scale: 1; }
+[data-platform="watchos"]  { --touch-min: 44px; --target-min: var(--touch-min); --row-min: var(--touch-min); --type-scale: 1; }
+[data-platform="tvos"]     { --target-min: 0px;  --row-min: 0px; --type-scale: 1; }
+
+/* 3 · type roles — macOS built-in text styles (no Dynamic Type on macOS) */
+:root, [data-platform="macos"] {
+  --ts-large-title-size: 26px; --ts-large-title-line: 32px; --ts-large-title-weight: 400;
+  --ts-title1-size: 22px; --ts-title1-line: 26px; --ts-title1-weight: 400;
+  --ts-title2-size: 17px; --ts-title2-line: 22px; --ts-title2-weight: 400;
+  --ts-title3-size: 15px; --ts-title3-line: 20px; --ts-title3-weight: 400;
+  --ts-headline-size: 13px; --ts-headline-line: 16px; --ts-headline-weight: 700;
+  --ts-body-size: 13px; --ts-body-line: 16px; --ts-body-weight: 400;
+  --ts-callout-size: 12px; --ts-callout-line: 15px; --ts-callout-weight: 400;
+  --ts-subheadline-size: 11px; --ts-subheadline-line: 14px; --ts-subheadline-weight: 400;
+  --ts-footnote-size: 10px; --ts-footnote-line: 13px; --ts-footnote-weight: 400;
+  --ts-caption1-size: 10px; --ts-caption1-line: 13px; --ts-caption1-weight: 400;
+  --ts-caption2-size: 10px; --ts-caption2-line: 13px; --ts-caption2-weight: 500;
+}
+/* iOS / iPadOS / visionOS weights (sizes come from §4) */
+[data-platform="ios"], [data-platform="ipados"], [data-platform="visionos"] {
+  --ts-large-title-weight: 400; --ts-title1-weight: 400; --ts-title2-weight: 400; --ts-title3-weight: 400;
+  --ts-headline-weight: 600; --ts-body-weight: 400; --ts-callout-weight: 400; --ts-subheadline-weight: 400;
+  --ts-footnote-weight: 400; --ts-caption1-weight: 400; --ts-caption2-weight: 400;
+}
+/* visionOS: iOS Large sizes, body/title weight +1 (HIG text, no table); data-type-size re-points the sizes in §4a */
+[data-platform="visionos"] {
+  --ts-large-title-size: 34px; --ts-large-title-line: 41px; --ts-large-title-weight: 600;
+  --ts-title1-size: 28px; --ts-title1-line: 34px; --ts-title1-weight: 600;
+  --ts-title2-size: 22px; --ts-title2-line: 28px; --ts-title2-weight: 600;
+  --ts-title3-size: 20px; --ts-title3-line: 25px; --ts-title3-weight: 600;
+  --ts-headline-size: 17px; --ts-headline-line: 22px;
+  --ts-body-size: 17px; --ts-body-line: 22px; --ts-body-weight: 500;
+  --ts-callout-size: 16px; --ts-callout-line: 21px; --ts-callout-weight: 500;
+  --ts-subheadline-size: 15px; --ts-subheadline-line: 20px;
+  --ts-footnote-size: 13px; --ts-footnote-line: 18px;
+  --ts-caption1-size: 12px; --ts-caption1-line: 16px;
+  --ts-caption2-size: 11px; --ts-caption2-line: 13px;
+}
+/* watchOS — Large (40/41/42 mm default); callout→body, subheadline→caption1, footnote→Footnote 1 */
+[data-platform="watchos"] {
+  --ts-large-title-size: 36px; --ts-large-title-line: 38.5px; --ts-large-title-weight: 400;
+  --ts-title1-size: 34px; --ts-title1-line: 36.5px; --ts-title1-weight: 400;
+  --ts-title2-size: 28px; --ts-title2-line: 30.5px; --ts-title2-weight: 400;
+  --ts-title3-size: 19px; --ts-title3-line: 21.5px; --ts-title3-weight: 400;
+  --ts-headline-size: 16px; --ts-headline-line: 18.5px; --ts-headline-weight: 600;
+  --ts-body-size: 16px; --ts-body-line: 18.5px; --ts-body-weight: 400;
+  --ts-callout-size: 16px; --ts-callout-line: 18.5px; --ts-callout-weight: 400;
+  --ts-subheadline-size: 15px; --ts-subheadline-line: 17.5px; --ts-subheadline-weight: 400;
+  --ts-footnote-size: 13px; --ts-footnote-line: 15.5px; --ts-footnote-weight: 400;
+  --ts-caption1-size: 15px; --ts-caption1-line: 17.5px; --ts-caption1-weight: 400;
+  --ts-caption2-size: 14px; --ts-caption2-line: 16.5px; --ts-caption2-weight: 400;
+}
+/* tvOS built-in text styles (no large title / subheadline / footnote: mapped to the nearest) */
+[data-platform="tvos"] {
+  --ts-large-title-size: 76px; --ts-large-title-line: 96px; --ts-large-title-weight: 500;
+  --ts-title1-size: 76px; --ts-title1-line: 96px; --ts-title1-weight: 500;
+  --ts-title2-size: 57px; --ts-title2-line: 66px; --ts-title2-weight: 500;
+  --ts-title3-size: 48px; --ts-title3-line: 56px; --ts-title3-weight: 500;
+  --ts-headline-size: 38px; --ts-headline-line: 46px; --ts-headline-weight: 500;
+  --ts-body-size: 29px; --ts-body-line: 36px; --ts-body-weight: 500;
+  --ts-callout-size: 31px; --ts-callout-line: 38px; --ts-callout-weight: 500;
+  --ts-subheadline-size: 38px; --ts-subheadline-line: 46px; --ts-subheadline-weight: 400;
+  --ts-footnote-size: 25px; --ts-footnote-line: 32px; --ts-footnote-weight: 500;
+  --ts-caption1-size: 25px; --ts-caption1-line: 32px; --ts-caption1-weight: 500;
+  --ts-caption2-size: 23px; --ts-caption2-line: 30px; --ts-caption2-weight: 500;
+}
+
+/* Dynamic Type tables are generated from tokens/type-scales.json into type-scales.css. */
+
+/* 5 · role classes */
+.ts-large-title { font-size: var(--ts-large-title-size); line-height: var(--ts-large-title-line); font-weight: var(--ts-large-title-weight); }
+.ts-title1      { font-size: var(--ts-title1-size); line-height: var(--ts-title1-line); font-weight: var(--ts-title1-weight); }
+.ts-title2      { font-size: var(--ts-title2-size); line-height: var(--ts-title2-line); font-weight: var(--ts-title2-weight); }
+.ts-title3      { font-size: var(--ts-title3-size); line-height: var(--ts-title3-line); font-weight: var(--ts-title3-weight); }
+.ts-headline    { font-size: var(--ts-headline-size); line-height: var(--ts-headline-line); font-weight: var(--ts-headline-weight); }
+.ts-body        { font-size: var(--ts-body-size); line-height: var(--ts-body-line); font-weight: var(--ts-body-weight); }
+.ts-callout     { font-size: var(--ts-callout-size); line-height: var(--ts-callout-line); font-weight: var(--ts-callout-weight); }
+.ts-subheadline { font-size: var(--ts-subheadline-size); line-height: var(--ts-subheadline-line); font-weight: var(--ts-subheadline-weight); }
+.ts-footnote    { font-size: var(--ts-footnote-size); line-height: var(--ts-footnote-line); font-weight: var(--ts-footnote-weight); }
+.ts-caption1    { font-size: var(--ts-caption1-size); line-height: var(--ts-caption1-line); font-weight: var(--ts-caption1-weight); }
+.ts-caption2    { font-size: var(--ts-caption2-size); line-height: var(--ts-caption2-line); font-weight: var(--ts-caption2-weight); }
+
+/* 6 · material roles */
+[data-material="menu"]  { background: var(--glass-bg); border: var(--stroke-hairline) solid var(--glass-panel-border); box-shadow: var(--shadow-dropdown); backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); }
+[data-material="sheet"] { background: var(--bg-elevated); border: var(--stroke-hairline) solid var(--border-subtle); box-shadow: var(--shadow-modal); }
+[data-material="panel"] { background: var(--glass-bg); border: var(--stroke-hairline) solid var(--glass-panel-border); box-shadow: var(--shadow-elevated); backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); }
+[data-material="bar"]   { background: var(--glass-transport); border: none; backdrop-filter: blur(var(--glass-blur)); -webkit-backdrop-filter: blur(var(--glass-blur)); }
+[data-material="vision-window"]   { background: var(--glass-surface-hover); box-shadow: inset 0 0 0 var(--stroke-hairline) var(--glass-border); backdrop-filter: blur(var(--glass-clear-blur)); -webkit-backdrop-filter: blur(var(--glass-clear-blur)); }
+[data-material="vision-ornament"] { background: var(--glass-surface-active); box-shadow: inset 0 0 0 var(--stroke-hairline) var(--glass-border); backdrop-filter: blur(var(--glass-clear-blur)); -webkit-backdrop-filter: blur(var(--glass-clear-blur)); }
+/* 6a · bright-room glass (Task G1, 2026-10-15). The visionOS glass above is tuned for dark rooms. A room or shared space as light as
+   Allegory's daylight room (#6f7480 at its brightest) shows through it enough to pull text under 4.5:1, so a room that is that light
+   carries data-room="bright", and the windows, ornaments and menus inside it draw a denser glass under the same blur. Mark only bright
+   rooms; dark rooms keep the default glass. Over #6f7480 the bright window glass composites to about the tone the default glass has over
+   the #2a2c2f canvas room, so every ratio in §6b holds there (measured over #6f7480: --fg 8.8:1, secondary 6.5:1, emphasis 7.5:1,
+   secondary on a fill-primary platter 5.1:1, --fg on the selected platter 5.2:1; ornament --fg 7.5:1, secondary 5.7:1; status and link on
+   the window 7.1, 7.2, 6.3, 6.5, on an ornament 6.0, 6.1, 5.3, 5.4, on a platter 5.2, 5.3, 4.6, 4.7). A window drawn by hand inside a
+   bright room uses --vision-glass-window-bright as its fill. */
+[data-room="bright"] {
+  --vision-glass-window-bright: rgba(42, 42, 48, 0.80);    /* windows and menus in a bright room (the default window glass is glass-surface-hover) */
+  --vision-glass-ornament-bright: rgba(56, 56, 64, 0.80);  /* ornaments in a bright room, one step lighter than the window (default glass-surface-active) */
+}
+[data-room="bright"] [data-material="vision-window"], [data-room="bright"] [data-material="menu"] { background: var(--vision-glass-window-bright); }
+[data-room="bright"] [data-material="vision-ornament"] { background: var(--vision-glass-ornament-bright); }
+@media (prefers-reduced-transparency: reduce) {
+  [data-material], [data-room] [data-material] { background: var(--bg-elevated); border: var(--stroke-med-light) solid var(--border-strong); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+[data-reduce-transparency] [data-material], [data-material][data-reduce-transparency] {
+  background: var(--bg-elevated); border: var(--stroke-med-light) solid var(--border-strong); backdrop-filter: none; -webkit-backdrop-filter: none;
+}
+
+/* 6b · visionOS ink and recess roles. Content on visionOS window glass needs more ink than the base secondary text gives it, and
+   fields, tracks and selected segments sit in the glass rather than on a surface. The values are percentages of the scope's own
+   ink and window ground, so they follow a pinned dark scope. Declare a pinned scope (data-theme-pin) on the same element as
+   data-platform="visionos". Contrast on the window glass (glass-surface-hover over the canvas room, #2a2c2f): secondary 6.5:1,
+   emphasis 7.4:1; on a fill-primary platter secondary stays above 4.5:1. Text on the selected platter uses --fg (5.2:1).
+   Status and link text (Task A15): light tints of the status roles and the accent, fixed values because the glass is always dark. Contrast on the
+   window glass (#2a2c2f room): success 7.1:1, warning 7.1:1, error 6.3:1, info and link 6.4:1. On a glass-surface-active ornament: 5.9, 5.9, 5.2, 5.3;
+   on a fill-primary platter over the window glass: 5.2, 5.3, 4.6, 4.7. A scope that sets the base roles from these writes
+   --status-success-fg: var(--vision-status-success-fg) and so on. */
+[data-platform="visionos"] {
+  --vision-fg-secondary: color-mix(in srgb, var(--fg) 82%, transparent);            /* secondary text and glyphs on the glass */
+  --vision-fg-emphasis: color-mix(in srgb, var(--fg) 90%, transparent);             /* chips, tags and values that sit beside secondary text */
+  --vision-recess: color-mix(in srgb, var(--bg-window) 16%, transparent);           /* a field or track recessed into the glass */
+  --vision-recess-strong: color-mix(in srgb, var(--bg-window) 28%, transparent);    /* a deeper recess: a well that holds content */
+  --vision-selected: color-mix(in srgb, var(--fg) 22%, transparent);                /* a selected tab or segment platter */
+  --vision-status-success-fg: #6ee38c;                                              /* success text and glyphs on the glass: 7.1:1 */
+  --vision-status-warning-fg: #ffc266;                                              /* warning text and glyphs on the glass: 7.1:1 */
+  --vision-status-error-fg: #ffaaa4;                                                /* error text and glyphs on the glass: 6.3:1 */
+  --vision-status-info-fg: #86c9ff;                                                 /* info text and glyphs on the glass: 6.4:1 */
+  --vision-link: #86c9ff;                                                           /* a link on the glass: 6.4:1 */
+}
+
+/* 7 · interaction states (zero specificity: anything a board writes wins)
+   Hover and pressed are a state layer drawn in ::before, under the element's content and over its own background, so an
+   inline `background:` shorthand cannot cancel them. The touch hit area (§8) uses ::after. An element that already draws
+   with ::before opts out with data-state-layer="none". The element is isolated only while hovered or pressed: a resting
+   isolation would re-composite the kits' mix-blend-mode labels and glass edges against the control instead of the window. */
+:where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"])) {
+  position: relative;
+}
+:where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"])):is(:hover, :active) { isolation: isolate; }
+:where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"]))::before {
+  content: ""; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1; background: transparent;
+}
+:where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"])):hover::before  { background: var(--row-hover); }
+:where([data-platform="visionos"]) :where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"])):hover::before { background: var(--glass-highlight); }
+:where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([aria-disabled="true"], [data-state-layer="none"])):active::before { background: var(--row-pressed); }
+:where(button, a[href], input, select, textarea, [tabindex], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring); outline-offset: var(--focus-ring-offset);
+}
+:where([aria-disabled="true"]) { opacity: var(--op-disabled); cursor: default; }
+
+/* macOS menu items: AppKit highlights the hovered item with the accent selection (the kit draws it), not a hover tint, and the layer
+   would sit over that highlight and pull the label below 4.5:1. A menu item on a touch platform nested in a macOS root keeps its layer. */
+:where([data-platform="macos"]) :where([role="menuitem"], [role="menuitemradio"], [role="menuitemcheckbox"]):where(:not([data-platform="macos"] [data-platform]:not([data-platform="macos"]) *))::before { content: none; }
+
+/* 8 · touch hit area — automatic on touch platforms; opt out with data-hit="none" */
+:where([data-platform="ios"], [data-platform="ipados"], [data-platform="visionos"], [data-platform="watchos"])
+  :where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([data-hit="none"])) {
+  position: relative;
+}
+:where([data-platform="ios"], [data-platform="ipados"], [data-platform="visionos"], [data-platform="watchos"])
+  :where(button, a[href], [role="button"], [role="link"], [role="tab"], [role="menuitem"], [role="option"], [role="switch"], [role="checkbox"], [role="radio"]):where(:not([data-hit="none"]))::after {
+  content: ""; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 100%; height: 100%; min-width: var(--target-min); min-height: var(--target-min);
+}
+
+/* a segmented control drawn with hitTarget (VisionSegmentedControl): its segments clip their own overflow inline, which would
+   swallow the hit area above; let it out (the label ellipsises on its own node) */
+[data-hit-segments] [role="radio"] { overflow: visible !important; }
+
+/* 9 · colour scheme */
+:root { color-scheme: dark; }
+:root[data-theme="root-light"] { color-scheme: light; }
+/* a pinned scope (AppShell: data-theme-pin) re-declares the tokens; without this its text keeps the light page's computed
+   colour. Zero specificity, so an app's own colour on the scope still wins. */
+:where([data-theme-pin]) { color: var(--fg); }
+
+/* 10 · density (moved from components/bundle.css) */
+:root[data-density="condensed"] { --sp-section: var(--sp-lg); --sp-content: var(--sp-xl); --sp-section-padding: var(--sp-xxl); }
+:root[data-density="spacious"]  { --sp-section: var(--sp-xxl); --sp-content: var(--sp-xxxl); --sp-section-padding: 40px; }

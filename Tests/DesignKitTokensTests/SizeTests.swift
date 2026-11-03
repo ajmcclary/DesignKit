@@ -33,8 +33,25 @@ struct SizeTests {
         #expect(Tokens.Size.Avatar.xl == 64)
     }
 
-    @Test("layout metrics")
+    @Test("layout metrics are the design system's layout-* tokens")
     func layoutMetrics() {
+        #expect(Tokens.Size.Layout.windowWidth == 1280)
+        #expect(Tokens.Size.Layout.windowHeight == 820)
+        #expect(Tokens.Size.Layout.windowMinWidth == 960)
+        #expect(Tokens.Size.Layout.windowMinHeight == 600)
+        #expect(Tokens.Size.Layout.sidebarMin == 200)
+        #expect(Tokens.Size.Layout.sidebarIdeal == 220)
+        #expect(Tokens.Size.Layout.sidebarMax == 300)
+        #expect(Tokens.Size.Layout.detailMin == 700)
+        #expect(Tokens.Size.Layout.inspectorMin == 280)
+        #expect(Tokens.Size.Layout.inspectorIdeal == 300)
+        #expect(Tokens.Size.Layout.inspectorMax == 420)
+        #expect(Tokens.Size.Layout.inspectorStep == 16)
+    }
+
+    @available(*, deprecated)
+    @Test("legacy layout metrics stay until 3.0.0")
+    func legacyLayoutMetrics() {
         #expect(Tokens.Size.Layout.sidebarWidth == 236)
         #expect(Tokens.Size.Layout.inspectorWidth == 328)
     }
