@@ -11,6 +11,7 @@ from pathlib import Path
 
 import importlib.util
 
+sys.dont_write_bytecode = True  # a stale __pycache__ entry must never shadow the script under test
 _spec = importlib.util.spec_from_file_location(
     "generate_themes", Path(__file__).resolve().parent / "generate-themes.py")
 generate_themes = importlib.util.module_from_spec(_spec)
