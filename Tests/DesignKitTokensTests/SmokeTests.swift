@@ -3,6 +3,6 @@ import Testing
 
 @Suite struct SmokeTests {
     @Test func schemaVersionIsSet() {
-        #expect(Tokens.schemaVersion == "2.0.0")
+        #expect(Tokens.schemaVersion == "3.0.0")
     }
 }

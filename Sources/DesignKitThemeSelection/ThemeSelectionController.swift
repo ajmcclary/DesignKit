@@ -9,7 +9,7 @@ public protocol ThemeAppearanceApplying {
     func applySystemAppearance(_ preference: ThemeAppearancePreference)
 }
 
-/// Single writer for theme selection: owns the value, persists per-axis, and
+/// Single writer for theme selection: owns the value, persists it, and
 /// invokes the injected appearance applier on every successful mutation.
 /// App-side effects (notifications, provider snapshots) stay in the app,
 /// layered on the Bool change signal the mutators return.
@@ -24,7 +24,7 @@ public final class ThemeSelectionController: ObservableObject {
 
     public init(
         persistence: any ThemeSelectionPersistence,
-        defaultSelection: ThemeSelection = ThemeSelection(family: .lcars, appearance: .system),
+        defaultSelection: ThemeSelection = ThemeSelection(appearance: .system),
         appearanceApplier: (any ThemeAppearanceApplying)? = nil
     ) {
         self.persistence = persistence
@@ -33,15 +33,6 @@ public final class ThemeSelectionController: ObservableObject {
     }
 
     /// True when the value changed; callers gate their own side effects on it.
-    @discardableResult
-    public func setFamily(_ family: Theme.Family) -> Bool {
-        guard family != selection.family else { return false }
-        selection.family = family
-        persistence.saveFamily(family)
-        appearanceApplier?.applySystemAppearance(selection.appearance)
-        return true
-    }
-
     @discardableResult
     public func setAppearance(_ appearance: ThemeAppearancePreference) -> Bool {
         guard appearance != selection.appearance else { return false }

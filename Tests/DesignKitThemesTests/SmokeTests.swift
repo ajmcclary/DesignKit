@@ -3,6 +3,6 @@ import DesignKitThemes
 
 @Suite struct SmokeTests {
     @Test func reexportsTokens() {
-        #expect(Tokens.schemaVersion == "2.0.0")
+        #expect(Tokens.schemaVersion == "3.0.0")
     }
 }

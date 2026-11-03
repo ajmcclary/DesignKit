@@ -15,7 +15,7 @@ public struct Theme: Hashable, Sendable, Identifiable {
 
     /// Stable identifier — currently the theme name.
     public var id: String { name }
-    /// Display name (e.g., `"LCARS Dark"`).
+    /// Display name (`"Dark"` or `"Light"` for the built-in pair).
     public let name: String
     /// Dark vs. light environment.
     public let appearance: Appearance

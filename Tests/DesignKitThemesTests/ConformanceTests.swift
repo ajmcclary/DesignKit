@@ -22,10 +22,10 @@ struct ConformanceTests {
         // Themes layer
         _ = Theme.default
         _ = Theme.all
-        _ = Theme.Family.allCases
-        _ = Theme.lcarsDark.resolveSyntaxColor(for: "keyword")
-        _ = Theme.lcarsDark.resolveSyntaxStyle(for: "keyword")
-        _ = Theme.lcarsDark.resolved(for: .none)
+        _ = Theme.theme(for: .light)
+        _ = Theme.dark.resolveSyntaxColor(for: "keyword")
+        _ = Theme.dark.resolveSyntaxStyle(for: "keyword")
+        _ = Theme.dark.resolved(for: .none)
         _ = Theme.derive(
             name: "Pin", appearance: .dark,
             background: Tokens.Color(hex: 0x000000),

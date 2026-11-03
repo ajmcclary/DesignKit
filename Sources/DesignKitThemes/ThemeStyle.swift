@@ -2,7 +2,8 @@ import DesignKitTokens
 import Foundation
 
 /// The full visual surface of a theme: semantic color groups whose role
-/// names descend from Zed's dotted keys, now defined directly in Swift.
+/// names descend from Zed's dotted keys. Values are generated from the
+/// design system's tokens by `Scripts/generate-themes.py`.
 public struct ThemeStyle: Hashable, Sendable {
     /// Top-level window/canvas background.
     public let background: Tokens.Color

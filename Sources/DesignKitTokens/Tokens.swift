@@ -10,5 +10,5 @@ import Foundation
 /// per-project generators it descends from are retired.
 public enum Tokens {
     /// Tokens schema version. Bumped on backwards-incompatible token changes.
-    public static let schemaVersion = "2.0.0"
+    public static let schemaVersion = "3.0.0"
 }

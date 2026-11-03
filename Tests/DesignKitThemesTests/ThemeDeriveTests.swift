@@ -65,14 +65,4 @@ struct ThemeDeriveTests {
         #expect(t.style.accents.first == Self.accent)
         #expect(t.style.terminal?.ansi?.red == Tokens.Palette.ANSI.red)
     }
-
-    @Test("classic themes exist and map to Apple system colors")
-    func classicThemesExist() {
-        #expect(Theme.classicDark.appearance == .dark)
-        #expect(Theme.classicLight.appearance == .light)
-        #expect(Theme.classicDark.style.text.accent == Tokens.Palette.Accent.dark)
-        #expect(Theme.classicLight.style.text.accent == Tokens.Palette.Accent.light)
-        #expect(Theme.classicDark.style.status.success.base == Tokens.Palette.Status.successDark)
-        #expect(Theme.classicLight.style.status.error.base == Tokens.Palette.Status.errorLight)
-    }
 }

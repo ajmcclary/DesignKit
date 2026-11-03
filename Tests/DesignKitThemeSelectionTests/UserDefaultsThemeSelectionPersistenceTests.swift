@@ -31,33 +31,30 @@ final class UserDefaultsThemeSelectionPersistenceTests: XCTestCase {
         XCTAssertNil(persistence.loadSelection())
     }
 
-    func test_roundTrip() {
+    func test_roundTripsAppearance() {
         let persistence = UserDefaultsThemeSelectionPersistence(defaults: defaults)
-        persistence.saveFamily(.borgCube)
-        persistence.saveAppearance(.dark)
-        XCTAssertEqual(persistence.loadSelection(),
-                       ThemeSelection(family: .borgCube, appearance: .dark))
+        persistence.saveAppearance(.light)
+        XCTAssertEqual(persistence.loadSelection(), ThemeSelection(appearance: .light))
     }
 
-    func test_unknownFamilyRawLoadsNil() {
-        defaults.set("not-a-family", forKey: UserDefaultsThemeSelectionPersistence.defaultFamilyKey)
+    func test_unknownRawLoadsNil() {
+        defaults.set("sepia", forKey: UserDefaultsThemeSelectionPersistence.defaultAppearanceKey)
         let persistence = UserDefaultsThemeSelectionPersistence(defaults: defaults)
         XCTAssertNil(persistence.loadSelection())
     }
 
-    func test_missingAppearanceDefaultsToSystem() {
+    func test_legacyFamilyKeyIsIgnored() {
+        defaults.set("legacy-family", forKey: "designKit.themeSelection.family")
+        defaults.set("dark", forKey: UserDefaultsThemeSelectionPersistence.defaultAppearanceKey)
         let persistence = UserDefaultsThemeSelectionPersistence(defaults: defaults)
-        persistence.saveFamily(.lcars)
-        XCTAssertEqual(persistence.loadSelection(),
-                       ThemeSelection(family: .lcars, appearance: .system))
+        XCTAssertEqual(persistence.loadSelection(), ThemeSelection(appearance: .dark))
+        persistence.saveAppearance(.system)
+        XCTAssertEqual(defaults.string(forKey: "designKit.themeSelection.family"), "legacy-family") // never touched
     }
 
-    func test_configurableKeys() {
-        let persistence = UserDefaultsThemeSelectionPersistence(
-            defaults: defaults, familyKey: "legacy.family", appearanceKey: "legacy.appearance")
-        persistence.saveFamily(.command)
+    func test_configurableKey() {
+        let persistence = UserDefaultsThemeSelectionPersistence(defaults: defaults, appearanceKey: "legacy.appearance")
         persistence.saveAppearance(.light)
-        XCTAssertEqual(defaults.string(forKey: "legacy.family"), "command")
         XCTAssertEqual(defaults.string(forKey: "legacy.appearance"), "light")
     }
 }

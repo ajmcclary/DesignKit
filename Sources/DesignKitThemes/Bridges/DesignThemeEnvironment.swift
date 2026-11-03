@@ -6,7 +6,7 @@ private struct DesignThemeKey: EnvironmentKey {
 }
 
 extension EnvironmentValues {
-    /// The active DesignKit theme. Defaults to `Theme.default` (LCARS Dark).
+    /// The active DesignKit theme. Defaults to `Theme.default` (the generated dark theme).
     public var designTheme: Theme {
         get { self[DesignThemeKey.self] }
         set { self[DesignThemeKey.self] = newValue }

@@ -1,13 +1,11 @@
 import DesignKitThemes
 
-/// The two-axis theme choice: a visual family plus an appearance preference.
-/// Resolution: Family × AppearancePreference × current system appearance → Theme.
+/// The user's theme choice: an appearance preference.
+/// Resolution: AppearancePreference × current system appearance → Theme.
 public struct ThemeSelection: Hashable, Sendable {
-    public var family: Theme.Family
     public var appearance: ThemeAppearancePreference
 
-    public init(family: Theme.Family, appearance: ThemeAppearancePreference) {
-        self.family = family
+    public init(appearance: ThemeAppearancePreference) {
         self.appearance = appearance
     }
 
@@ -16,6 +14,6 @@ public struct ThemeSelection: Hashable, Sendable {
     }
 
     public func resolvedTheme(system: Theme.Appearance) -> Theme {
-        family.theme(for: resolvedAppearance(system: system))
+        Theme.theme(for: resolvedAppearance(system: system))
     }
 }

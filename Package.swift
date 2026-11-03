@@ -28,8 +28,8 @@ let package = Package(
             dependencies: ["DesignKitTokens"],
             swiftSettings: swiftSettings
         ),
-        // UI-free theme selection: two-axis model (family × appearance
-        // preference), resolution, persistence protocol, controller.
+        // UI-free theme selection: appearance preference, resolution,
+        // persistence protocol, controller.
         // Promoted from RepoPrompt's incubation package (2026-07-14).
         .target(
             name: "DesignKitThemeSelection",

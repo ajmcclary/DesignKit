@@ -5,7 +5,7 @@ import Testing
 struct AccessibilityTests {
     @Test("none preferences return the identical theme")
     func nonePreferencesReturnIdenticalTheme() {
-        #expect(Theme.lcarsDark.resolved(for: .none) == Theme.lcarsDark)
+        #expect(Theme.dark.resolved(for: .none) == Theme.dark)
     }
 
     @Test("increase contrast hardens text roles across every theme")
@@ -24,7 +24,7 @@ struct AccessibilityTests {
 
     @Test("reduce transparency makes glass opaque")
     func reduceTransparencyMakesGlassOpaque() {
-        let hard = Theme.lcarsDark.resolved(
+        let hard = Theme.dark.resolved(
             for: AccessibilityPreferences(reduceTransparency: true))
         #expect(hard.glass.glass.opacity == 1.0)
         #expect(hard.glass.glass.tint.alpha == 1.0)
@@ -32,17 +32,15 @@ struct AccessibilityTests {
 
     @Test("resolved theme keeps identity")
     func resolvedThemeKeepsIdentity() {
-        let hard = Theme.lcarsDark.resolved(for: AccessibilityPreferences(increaseContrast: true))
-        #expect(hard.name == Theme.lcarsDark.name)
-        #expect(hard.appearance == Theme.lcarsDark.appearance)
+        let hard = Theme.dark.resolved(for: AccessibilityPreferences(increaseContrast: true))
+        #expect(hard.name == Theme.dark.name)
+        #expect(hard.appearance == Theme.dark.appearance)
     }
 
-    @Test("already-compliant colors pass through unchanged")
-    func compliantColorsUntouched() {
-        // LCARS High Contrast dark is hand-tuned; hardening should be ~identity
-        // for its primary text.
-        let theme = Theme.lcarsHighContrastDark
-        let hard = theme.resolved(for: AccessibilityPreferences(increaseContrast: true))
-        #expect(hard.style.text.base == theme.style.text.base)
+    @Test("hardening is idempotent")
+    func hardeningIsIdempotent() {
+        let prefs = AccessibilityPreferences(increaseContrast: true)
+        let hard = Theme.dark.resolved(for: prefs)
+        #expect(hard.resolved(for: prefs) == hard)
     }
 }

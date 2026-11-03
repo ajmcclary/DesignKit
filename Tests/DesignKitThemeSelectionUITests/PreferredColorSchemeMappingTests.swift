@@ -13,7 +13,7 @@ final class PreferredColorSchemeMappingTests: XCTestCase {
 
     func test_modifierExistsAtWindowRootShape() {
         // Compile-shape check: the installation modifier accepts a selection.
-        let selection = ThemeSelection(family: .lcars, appearance: .system)
+        let selection = ThemeSelection(appearance: .system)
         _ = EmptyView().designKitThemeSelection(selection)
     }
 }

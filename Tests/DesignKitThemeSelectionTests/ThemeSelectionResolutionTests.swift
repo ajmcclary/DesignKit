@@ -13,18 +13,17 @@ final class ThemeSelectionResolutionTests: XCTestCase {
             (.dark, .dark, .dark),
         ]
         for (preference, system, expected) in cases {
-            let selection = ThemeSelection(family: .lcars, appearance: preference)
+            let selection = ThemeSelection(appearance: preference)
             XCTAssertEqual(selection.resolvedAppearance(system: system), expected,
                            "\(preference.rawValue) under system \(system)")
         }
     }
 
-    func test_everyFamilyResolvesBothAppearances() {
-        for family in Theme.Family.allCases {
-            let selection = ThemeSelection(family: family, appearance: .system)
-            XCTAssertEqual(selection.resolvedTheme(system: .light).id, family.theme(for: .light).id)
-            XCTAssertEqual(selection.resolvedTheme(system: .dark).id, family.theme(for: .dark).id)
-        }
+    func test_resolvedThemeFollowsPreference() {
+        XCTAssertEqual(ThemeSelection(appearance: .dark).resolvedTheme(system: .light), Theme.dark)
+        XCTAssertEqual(ThemeSelection(appearance: .light).resolvedTheme(system: .dark), Theme.light)
+        XCTAssertEqual(ThemeSelection(appearance: .system).resolvedTheme(system: .light), Theme.light)
+        XCTAssertEqual(ThemeSelection(appearance: .system).resolvedTheme(system: .dark), Theme.dark)
     }
 
     func test_preferenceRawValuesArePinned() {
