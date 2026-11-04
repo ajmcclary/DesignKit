@@ -15,6 +15,9 @@ public struct BorderColors: Hashable, Sendable {
     public let transparent: Tokens.Color
     /// Variant border for subtle separators.
     public let variant: Tokens.Color
+    /// The emphasis border (the design system's `border-strong`, 3:1 on every
+    /// surface), e.g. diagram node strokes. 3.0.0.
+    public let strong: Tokens.Color
 
     /// Memberwise builder.
     public init(
@@ -23,7 +26,8 @@ public struct BorderColors: Hashable, Sendable {
         focused: Tokens.Color,
         selected: Tokens.Color,
         transparent: Tokens.Color,
-        variant: Tokens.Color
+        variant: Tokens.Color,
+        strong: Tokens.Color? = nil
     ) {
         self.base = base
         self.disabled = disabled
@@ -31,6 +35,7 @@ public struct BorderColors: Hashable, Sendable {
         self.selected = selected
         self.transparent = transparent
         self.variant = variant
+        self.strong = strong ?? base
     }
 
 }

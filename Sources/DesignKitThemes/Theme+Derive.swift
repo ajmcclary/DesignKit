@@ -154,7 +154,8 @@ extension Theme {
                 panelIndentGuideActive: accent,
                 panelIndentGuideHover: border,
                 paneFocusedBorder: accent,
-                paneGroupBorder: borderVariant
+                paneGroupBorder: borderVariant,
+                tertiaryBackground: elevated
             ),
             elements: ElementStates(element: states, ghostElement: ghostStates),
             borders: BorderColors(
@@ -163,7 +164,8 @@ extension Theme {
                 focused: accent,
                 selected: accent,
                 transparent: overlay(accent, 0),
-                variant: borderVariant
+                variant: borderVariant,
+                strong: muted
             ),
             text: TextLevels(
                 base: fg, muted: muted, placeholder: placeholder,

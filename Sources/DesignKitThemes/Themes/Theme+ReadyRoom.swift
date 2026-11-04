@@ -38,7 +38,8 @@ extension Theme {
             panelIndentGuideActive: Tokens.Color(hex: 0xFFFFFF, alpha: 0.35),
             panelIndentGuideHover: Tokens.Color(hex: 0xFFFFFF, alpha: 0.12),
             paneFocusedBorder: Tokens.Color(hex: 0x0A99FF),
-            paneGroupBorder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08)
+            paneGroupBorder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08),
+            tertiaryBackground: Tokens.Color(hex: 0x2E2E30)
         ),
         elements: ElementStates(
             element: ElementStates.States(background: Tokens.Color(hex: 0xFFFFFF, alpha: 0.05), hover: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08), active: Tokens.Color(hex: 0xFFFFFF, alpha: 0.1), selected: Tokens.Color(hex: 0x0A99FF, alpha: 0.149), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.02)),
@@ -50,7 +51,8 @@ extension Theme {
             focused: Tokens.Color(hex: 0x0A99FF),
             selected: Tokens.Color(hex: 0x0A99FF),
             transparent: Tokens.Color(hex: 0x000000, alpha: 0.0),
-            variant: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08)
+            variant: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08),
+            strong: Tokens.Color(hex: 0xFFFFFF, alpha: 0.35)
         ),
         text: TextLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
         icon: IconLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
@@ -162,7 +164,8 @@ extension Theme {
             panelIndentGuideActive: Tokens.Color(hex: 0x000000, alpha: 0.43),
             panelIndentGuideHover: Tokens.Color(hex: 0x000000, alpha: 0.12),
             paneFocusedBorder: Tokens.Color(hex: 0x0078F0),
-            paneGroupBorder: Tokens.Color(hex: 0x000000, alpha: 0.08)
+            paneGroupBorder: Tokens.Color(hex: 0x000000, alpha: 0.08),
+            tertiaryBackground: Tokens.Color(hex: 0xECECEE)
         ),
         elements: ElementStates(
             element: ElementStates.States(background: Tokens.Color(hex: 0x000000, alpha: 0.05), hover: Tokens.Color(hex: 0x000000, alpha: 0.08), active: Tokens.Color(hex: 0x000000, alpha: 0.1), selected: Tokens.Color(hex: 0x0078F0, alpha: 0.102), disabled: Tokens.Color(hex: 0x000000, alpha: 0.02)),
@@ -174,7 +177,8 @@ extension Theme {
             focused: Tokens.Color(hex: 0x0078F0),
             selected: Tokens.Color(hex: 0x0078F0),
             transparent: Tokens.Color(hex: 0x000000, alpha: 0.0),
-            variant: Tokens.Color(hex: 0x000000, alpha: 0.08)
+            variant: Tokens.Color(hex: 0x000000, alpha: 0.08),
+            strong: Tokens.Color(hex: 0x000000, alpha: 0.43)
         ),
         text: TextLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.25), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0064D6)),
         icon: IconLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.25), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0078F0)),
@@ -233,7 +237,7 @@ extension Theme {
             "variable.special": SyntaxStyle(color: Tokens.Color(hex: 0x000000, alpha: 0.85)),
             "variant": SyntaxStyle(color: Tokens.Color(hex: 0x0064D6)),
         ],
-        terminal: TerminalColors(foreground: Tokens.Color(hex: 0x000000, alpha: 0.85), background: Tokens.Color(hex: 0xFFFFFF), ansi: TerminalColors.ANSI(black: Tokens.Color(hex: 0x1E1E1E), red: Tokens.Color(hex: 0xF44747), green: Tokens.Color(hex: 0x6A9955), yellow: Tokens.Color(hex: 0xD7BA7D), blue: Tokens.Color(hex: 0x569CD6), magenta: Tokens.Color(hex: 0xC39BD3), cyan: Tokens.Color(hex: 0x4DD0E1), white: Tokens.Color(hex: 0xD4D4D4), brightBlack: Tokens.Color(hex: 0x1E1E1E), brightRed: Tokens.Color(hex: 0xF44747), brightGreen: Tokens.Color(hex: 0x6A9955), brightYellow: Tokens.Color(hex: 0xD7BA7D), brightBlue: Tokens.Color(hex: 0x569CD6), brightMagenta: Tokens.Color(hex: 0xC39BD3), brightCyan: Tokens.Color(hex: 0x4DD0E1), brightWhite: Tokens.Color(hex: 0xD4D4D4)))
+        terminal: TerminalColors(foreground: Tokens.Color(hex: 0x000000, alpha: 0.85), background: Tokens.Color(hex: 0xFFFFFF), ansi: TerminalColors.ANSI(black: Tokens.Color(hex: 0x000000), red: Tokens.Color(hex: 0xFF383C), green: Tokens.Color(hex: 0x34C759), yellow: Tokens.Color(hex: 0xFFCC00), blue: Tokens.Color(hex: 0x1E6EF4), magenta: Tokens.Color(hex: 0xCB30E0), cyan: Tokens.Color(hex: 0x00C0E8), white: Tokens.Color(hex: 0xFFFFFF), brightBlack: Tokens.Color(hex: 0x000000), brightRed: Tokens.Color(hex: 0xFF383C), brightGreen: Tokens.Color(hex: 0x34C759), brightYellow: Tokens.Color(hex: 0xFFCC00), brightBlue: Tokens.Color(hex: 0x1E6EF4), brightMagenta: Tokens.Color(hex: 0xCB30E0), brightCyan: Tokens.Color(hex: 0x00C0E8), brightWhite: Tokens.Color(hex: 0xFFFFFF)))
     )
 
     private static let lightGlass: GlassStyle = {

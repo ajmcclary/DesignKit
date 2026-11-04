@@ -39,7 +39,7 @@ struct ThemeCatalogTests {
         #expect(t.style.status.success.base.hexString == "#1E7B34")
         #expect(t.style.syntax["keyword"]?.color?.hexString == "#0000FF")
         #expect(t.glass.onAccent.hexString == "#FFFFFF")   // accent-contrast has no light value
-        #expect(t.style.terminal?.ansi?.red?.hexString == "#F44747") // ansi-* inherit the dark base
+        #expect(t.style.terminal?.ansi?.red?.hexString == "#FF383C") // light ANSI: accents-* root-light (3.0.0)
     }
 
     @Test("current-line highlight is distinguishable from the text selection")

@@ -38,6 +38,9 @@ public struct ChromeColors: Hashable, Sendable {
     public let paneFocusedBorder: Tokens.Color
     /// Border color around pane groups.
     public let paneGroupBorder: Tokens.Color
+    /// A third surface level (the design system's `bg-tertiary`): fills drawn
+    /// on top of a surface, such as diagram nodes on a canvas. 3.0.0.
+    public let tertiaryBackground: Tokens.Color
 
     /// Memberwise builder.
     public init(
@@ -56,7 +59,8 @@ public struct ChromeColors: Hashable, Sendable {
         panelIndentGuideActive: Tokens.Color,
         panelIndentGuideHover: Tokens.Color,
         paneFocusedBorder: Tokens.Color,
-        paneGroupBorder: Tokens.Color
+        paneGroupBorder: Tokens.Color,
+        tertiaryBackground: Tokens.Color? = nil
     ) {
         self.titleBarBackground = titleBarBackground
         self.titleBarInactiveBackground = titleBarInactiveBackground
@@ -74,6 +78,7 @@ public struct ChromeColors: Hashable, Sendable {
         self.panelIndentGuideHover = panelIndentGuideHover
         self.paneFocusedBorder = paneFocusedBorder
         self.paneGroupBorder = paneGroupBorder
+        self.tertiaryBackground = tertiaryBackground ?? surfaceBackground
     }
 
     /// Returns true if a flat key falls inside one of the prefixes this

@@ -121,6 +121,12 @@ SYNTAX_COLOR = {
 }
 SYNTAX_EXTRA = {"emphasis": ", fontStyle: .italic", "strong": ", fontWeight: 700", "title": ", fontWeight: 700"}
 ANSI = ["black", "red", "green", "yellow", "blue", "magenta", "cyan", "white"]
+# The light theme's terminal slots come from the design system's light accents
+# (plan Decision 4); the dark theme keeps ansi-*. A light-ANSI token set is a
+# design-system follow-up: when it exists, this table points at it.
+LIGHT_ANSI = {"black": "grays-black-2", "red": "accents-red", "green": "accents-green",
+              "yellow": "accents-yellow", "blue": "accents-blue", "magenta": "accents-purple",
+              "cyan": "accents-cyan", "white": "grays-white-2"}
 
 
 class UnresolvableToken(Exception):
@@ -257,8 +263,9 @@ def _render_theme(tokens, name, theme, appearance):
         color = c(SYNTAX_COLOR.get(key, "fg"))
         syntax_lines.append(f'            "{key}": SyntaxStyle(color: {color}{SYNTAX_EXTRA.get(key, "")}),')
 
-    ansi_args = ", ".join(f"{k}: {c('ansi-' + k)}" for k in ANSI)
-    bright_args = ", ".join(f"bright{k.capitalize()}: {c('ansi-' + k)}" for k in ANSI)
+    ansi_token = (lambda k: LIGHT_ANSI[k]) if theme == LIGHT else (lambda k: "ansi-" + k)
+    ansi_args = ", ".join(f"{k}: {c(ansi_token(k))}" for k in ANSI)
+    bright_args = ", ".join(f"bright{k.capitalize()}: {c(ansi_token(k))}" for k in ANSI)
     lower = appearance
     return [
         f"    private static let {lower}Style = ThemeStyle(",
@@ -297,7 +304,8 @@ def _render_theme(tokens, name, theme, appearance):
         f"            panelIndentGuideActive: {c('border-strong')},",
         f"            panelIndentGuideHover: {c('border-subtle')},",
         f"            paneFocusedBorder: {c('accent')},",
-        f"            paneGroupBorder: {c('border-hairline')}",
+        f"            paneGroupBorder: {c('border-hairline')},",
+        f"            tertiaryBackground: {c('bg-tertiary')}",
         "        ),",
         "        elements: ElementStates(",
         f"            element: ElementStates.States(background: {c('fill-tertiary')}, hover: {c('fill-secondary')}, active: {c('fill-primary')}, selected: {c('row-selected')}, disabled: {c('fill-quinary')}),",
@@ -309,7 +317,8 @@ def _render_theme(tokens, name, theme, appearance):
         f"            focused: {c('focus-ring')},",
         f"            selected: {c('accent')},",
         f"            transparent: {TRANSPARENT},",
-        f"            variant: {c('border-hairline')}",
+        f"            variant: {c('border-hairline')},",
+        f"            strong: {c('border-strong')}",
         "        ),",
         f"        text: TextLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-tertiary')}, disabled: {c('fg-disabled')}, accent: {c('accent-text')}),",
         f"        icon: IconLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-tertiary')}, disabled: {c('fg-disabled')}, accent: {c('accent')}),",
