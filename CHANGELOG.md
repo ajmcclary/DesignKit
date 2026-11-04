@@ -5,6 +5,44 @@ All notable changes to DesignKit are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [3.0.0] - 2026-11-04
+
+The final 3.0.0: every DesignKit token value the design system defines is now
+generated from the vendored token files.
+
+### Added
+
+- `Tokens+Generated.swift`: `Tokens.Spacing`, `Tokens.Shape` (radii, strokes),
+  `Tokens.Typography` (sizes, weights, line heights, `Tracking.caps`, font stacks)
+  and `Tokens.Opacity` are generated from `sp-*`, `radius-*`, `stroke-*`, `fs-*`,
+  `fw-*`, `lh-*`, `tracking-caps`, `type.families` and `op-*`. Constants with no
+  token (`Typography.Tracking.tight`, `Tokens.Size.*`) stay hand-written.
+- `Palette+Generated.swift`: `Tokens.Palette` (accent, hover, pressed, tints,
+  status, traffic lights, ANSI) is generated. The generator parses `oklch()`
+  (CSS Color 4) for `accent-hover`.
+- `ChromeColors.tertiaryBackground` (`bg-tertiary`) and `BorderColors.strong`
+  (`border-strong`), with defaulted initializer parameters (they default to
+  `surfaceBackground` and `base`).
+- `--check` covers all four generated files.
+
+### Changed
+
+- The accent is the design system's: `Palette.Accent.dark` #0A99FF (was #0A84FF),
+  `.light` #0078F0 (was #007AFF); tints use it; `hover*` come from `accent-hover`
+  (#0784DE / #0067D1); `pressed*` are the accent × 0.8 (#087ACC / #0060C0).
+- `Palette.Status`: `infoDark` #0A99FF, `successLight` #299B45, `warningLight`
+  #C57300, `infoLight` #0078F0.
+- `Palette.TrafficLight`: #FF5C60 / #FAC800 / #35C759.
+- Font stacks follow `type.families` (SF Pro names first; the mono stack is
+  `SF Mono, ui-monospace, Menlo, Consolas, monospace`).
+- The light theme's terminal ANSI slots come from the design system's light
+  accents (`accents-*`, `grays-black-2` / `grays-white-2`); the dark theme keeps
+  `ansi-*`.
+
+### Removed
+
+- `Tokens.Size.Layout.sidebarWidth` and `.inspectorWidth` (deprecated in beta.3).
+
 ## [3.0.0-beta.3] - 2026-11-03
 
 Additive: layout metrics generated from the design system.

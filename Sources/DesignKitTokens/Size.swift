@@ -85,14 +85,5 @@ extension Tokens {
     }
 }
 
-// `Tokens.Size.Layout` itself is generated (Size+Layout.swift) from the design
-// system's layout-* tokens. These two predate it and stay until 3.0.0 so
-// consumers keep compiling against the local checkout while they migrate.
-extension Tokens.Size.Layout {
-    /// 236pt — the pre-3.0 sidebar width.
-    @available(*, deprecated, message: "Use sidebarIdeal / sidebarMin / sidebarMax; removed in 3.0.0")
-    public static let sidebarWidth: Double = 236
-    /// 328pt — the pre-3.0 inspector width.
-    @available(*, deprecated, message: "Use inspectorIdeal / inspectorMin / inspectorMax; removed in 3.0.0")
-    public static let inspectorWidth: Double = 328
-}
+// `Tokens.Size.Layout` is generated (Size+Layout.swift) from the design system's
+// layout-* tokens.

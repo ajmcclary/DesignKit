@@ -49,13 +49,6 @@ struct SizeTests {
         #expect(Tokens.Size.Layout.inspectorStep == 16)
     }
 
-    @available(*, deprecated)
-    @Test("legacy layout metrics stay until 3.0.0")
-    func legacyLayoutMetrics() {
-        #expect(Tokens.Size.Layout.sidebarWidth == 236)
-        #expect(Tokens.Size.Layout.inspectorWidth == 328)
-    }
-
     @Test("macOS pointer-target minimum")
     func macOSTouchMinimum() {
         #expect(Tokens.Size.Touch.minimumMacOS == 28)
