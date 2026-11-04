@@ -75,13 +75,13 @@ class Check(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
             out = Path(tmp) / "Theme+ReadyRoom.swift"
-            self.assertEqual(main(["--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 0)
-            self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 0)
+            self.assertEqual(main(["--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift"), "--palette-output", str(Path(tmp) / "Palette+Generated.swift")]), 0)
+            self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift"), "--palette-output", str(Path(tmp) / "Palette+Generated.swift")]), 0)
             sem = json.loads((sources / "semantic.json").read_text())
             next(t for t in sem["tokens"] if t["name"] == "accent")["value"]["light"] = "#5a9dd8"
             (sources / "semantic.json").write_text(json.dumps(sem))
             with contextlib.redirect_stderr(io.StringIO()) as err:
-                self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift")]), 1)
+                self.assertEqual(main(["--check", "--sources", str(sources), "--output", str(out), "--layout-output", str(Path(tmp) / "Size+Layout.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift"), "--palette-output", str(Path(tmp) / "Palette+Generated.swift")]), 1)
             self.assertIn("Theme+ReadyRoom.swift", err.getvalue())
             self.assertIn("0x5A9DD8", err.getvalue())
 
@@ -114,7 +114,8 @@ class Layout(unittest.TestCase):
             out = Path(tmp) / "Theme+ReadyRoom.swift"
             layout_out = Path(tmp) / "Size+Layout.swift"
             argv = ["--sources", str(sources), "--output", str(out), "--layout-output", str(layout_out),
-                    "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift")]
+                    "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift"),
+                    "--palette-output", str(Path(tmp) / "Palette+Generated.swift")]
             self.assertEqual(main(argv), 0)
             self.assertEqual(main(["--check"] + argv), 0)
             css = (sources / "platform.css").read_text().replace("--layout-inspector-ideal: 300px", "--layout-inspector-ideal: 312px")
@@ -151,7 +152,8 @@ class Scalars(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
             argv = ["--sources", str(sources), "--output", str(Path(tmp) / "a.swift"),
-                    "--layout-output", str(Path(tmp) / "b.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift")]
+                    "--layout-output", str(Path(tmp) / "b.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift"),
+                    "--palette-output", str(Path(tmp) / "Palette+Generated.swift")]
             self.assertEqual(main(argv), 0)
             self.assertEqual(main(["--check"] + argv), 0)
             data = json.loads((sources / "tokens.json").read_text())
@@ -162,6 +164,41 @@ class Scalars(unittest.TestCase):
             with contextlib.redirect_stderr(io.StringIO()) as err:
                 self.assertEqual(main(["--check"] + argv), 1)
             self.assertIn("Tokens+Generated.swift", err.getvalue())
+
+
+class OklchParsing(unittest.TestCase):
+    """CSS Color 4 reference points (the spec's own oklch values for the sRGB primaries)."""
+    def assertNear(self, value, expected):
+        got = [(value[0] >> 16) & 0xFF, (value[0] >> 8) & 0xFF, value[0] & 0xFF]
+        want = [(expected >> 16) & 0xFF, (expected >> 8) & 0xFF, expected & 0xFF]
+        for g, w in zip(got, want):
+            self.assertLessEqual(abs(g - w), 1, f"{got} vs {want}")
+
+    def test_knownValues(self):
+        self.assertNear(parse_color("oklch(0.628 0.2577 29.23)"), 0xFF0000)
+        self.assertNear(parse_color("oklch(0.452 0.313 264.05)"), 0x0000FF)
+        self.assertNear(parse_color("oklch(0.8664 0.2948 142.5)"), 0x00FF00)
+        self.assertEqual(parse_color("oklch(1 0 0)"), (0xFFFFFF, 1.0))
+        self.assertEqual(parse_color("oklch(0 0 0)"), (0x000000, 1.0))
+
+    def test_accentHoverIsADarkerAccent(self):
+        hover, _ = parse_color("oklch(0.6027 0.1647 249.12)")
+        accent = 0x0A99FF
+        self.assertLess(sum((hover >> s) & 0xFF for s in (16, 8, 0)), sum((accent >> s) & 0xFF for s in (16, 8, 0)))
+        self.assertGreater(hover & 0xFF, (hover >> 16) & 0xFF, "still blue")
+
+
+class Palette(unittest.TestCase):
+    def test_rendersAccentStatusTrafficLightANSI(self):
+        swift = generate_themes.render_palette(load_tokens(SOURCES_DIR), source_commit="9fa9816f")
+        for line in ("extension Tokens.Palette.Accent {", "public static let dark = Tokens.Color(hex: 0x0A99FF)",
+                     "public static let light = Tokens.Color(hex: 0x0078F0)", "public static let tint10Dark = Tokens.Color(hex: 0x0A99FF, alpha: 0.1)",
+                     "public static let tint25Light = Tokens.Color(hex: 0x0078F0, alpha: 0.25)",
+                     "extension Tokens.Palette.Status {", "public static let successLight = Tokens.Color(hex: 0x299B45)",
+                     "public static let infoDark = Tokens.Color(hex: 0x0A99FF)",
+                     "extension Tokens.Palette.TrafficLight {", "public static let close = Tokens.Color(hex: 0xFF5C60)",
+                     "extension Tokens.Palette.ANSI {", "public static let red = Tokens.Color(hex: 0xF44747)"):
+            self.assertIn(line, swift)
 
 
 if __name__ == "__main__":

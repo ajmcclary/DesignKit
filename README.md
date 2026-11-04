@@ -15,7 +15,9 @@ generated outputs are committed and never edited by hand:
 - `Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift` — the dark and light themes;
 - `Sources/DesignKitTokens/Size+Layout.swift` — window and pane metrics (`layout-*`);
 - `Sources/DesignKitTokens/Tokens+Generated.swift` — spacing, radii and strokes,
-  type sizes / weights / line heights / tracking / font stacks, and opacities.
+  type sizes / weights / line heights / tracking / font stacks, and opacities;
+- `Sources/DesignKitTokens/Palette+Generated.swift` — the accent and its hover,
+  pressed and tint states, status colours, traffic lights and terminal ANSI.
 
 The hand-written token files hold only the enum namespaces and the constants the
 design system has no token for.
@@ -25,7 +27,8 @@ design system has no token for.
 - Verify the committed Swift matches the vendored sources (CI runs this):
   `python3 -I Scripts/generate-themes.py --check`
 - The role-to-token mapping lives in `render()` inside the generator, and the
-  scalar mapping in `SCALAR_MAP`; change it there, regenerate, and review the
+  scalar and palette mappings in `SCALAR_MAP` / `render_palette`; change them
+  there, regenerate, and review the
   Swift diff.
 
 ## Usage

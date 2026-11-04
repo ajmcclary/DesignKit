@@ -5,12 +5,12 @@ import Testing
 struct PaletteBaseTests {
     @Test("Apple systemBlue accent (dark)")
     func accentDark() {
-        #expect(Tokens.Palette.Accent.dark == Tokens.Color(hex: 0x0A84FF))
+        #expect(Tokens.Palette.Accent.dark == Tokens.Color(hex: 0x0A99FF))
     }
 
     @Test("Apple systemBlue accent (light)")
     func accentLight() {
-        #expect(Tokens.Palette.Accent.light == Tokens.Color(hex: 0x007AFF))
+        #expect(Tokens.Palette.Accent.light == Tokens.Color(hex: 0x0078F0))
     }
 
     @Test("accent contrast is white")
@@ -23,16 +23,16 @@ struct PaletteBaseTests {
         #expect(Tokens.Palette.Status.successDark == Tokens.Color(hex: 0x30D158))
         #expect(Tokens.Palette.Status.warningDark == Tokens.Color(hex: 0xFF9F0A))
         #expect(Tokens.Palette.Status.errorDark == Tokens.Color(hex: 0xFF453A))
-        #expect(Tokens.Palette.Status.infoDark == Tokens.Color(hex: 0x0A84FF))
+        #expect(Tokens.Palette.Status.infoDark == Tokens.Color(hex: 0x0A99FF))
         #expect(Tokens.Palette.Status.cautionDark == Tokens.Color(hex: 0xFFD60A))
     }
 
     @Test("status palette (light)")
     func statusLight() {
-        #expect(Tokens.Palette.Status.successLight == Tokens.Color(hex: 0x34C759))
-        #expect(Tokens.Palette.Status.warningLight == Tokens.Color(hex: 0xFF9500))
+        #expect(Tokens.Palette.Status.successLight == Tokens.Color(hex: 0x299B45))
+        #expect(Tokens.Palette.Status.warningLight == Tokens.Color(hex: 0xC57300))
         #expect(Tokens.Palette.Status.errorLight == Tokens.Color(hex: 0xFF3B30))
-        #expect(Tokens.Palette.Status.infoLight == Tokens.Color(hex: 0x007AFF))
+        #expect(Tokens.Palette.Status.infoLight == Tokens.Color(hex: 0x0078F0))
     }
 
     @Test("ANSI terminal palette")
@@ -64,21 +64,21 @@ struct PaletteDerivedTests {
     func darkPressedDarkerThanHover() {
         let hover = Tokens.Palette.Accent.hoverDark
         let pressed = Tokens.Palette.Accent.pressedDark
-        #expect(Int(pressed.red) <= Int(hover.red))
-        #expect(Int(pressed.green) <= Int(hover.green))
-        #expect(Int(pressed.blue) <= Int(hover.blue))
+        // hover comes from the design system's oklch accent-hover and pressed from
+        // the ×0.8 rule, so compare overall lightness, not each channel.
+        #expect(Int(pressed.red) + Int(pressed.green) + Int(pressed.blue) < Int(hover.red) + Int(hover.green) + Int(hover.blue))
     }
 
     @Test("derived dark variants match precomputed values")
     func darkPrecomputed() {
-        #expect(Tokens.Palette.Accent.hoverDark == Tokens.Color(hex: 0x0977E6))
-        #expect(Tokens.Palette.Accent.pressedDark == Tokens.Color(hex: 0x086ACC))
+        #expect(Tokens.Palette.Accent.hoverDark == Tokens.Color(hex: 0x0784DE))
+        #expect(Tokens.Palette.Accent.pressedDark == Tokens.Color(hex: 0x087ACC))
     }
 
     @Test("derived light variants match precomputed values")
     func lightPrecomputed() {
-        #expect(Tokens.Palette.Accent.hoverLight == Tokens.Color(hex: 0x006EE6))
-        #expect(Tokens.Palette.Accent.pressedLight == Tokens.Color(hex: 0x0062CC))
+        #expect(Tokens.Palette.Accent.hoverLight == Tokens.Color(hex: 0x0067D1))
+        #expect(Tokens.Palette.Accent.pressedLight == Tokens.Color(hex: 0x0060C0))
     }
 
     @Test("dark tints share base hex with monotonically increasing alpha")
