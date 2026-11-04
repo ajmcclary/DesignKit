@@ -113,7 +113,8 @@ class Layout(unittest.TestCase):
             sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
             out = Path(tmp) / "Theme+ReadyRoom.swift"
             layout_out = Path(tmp) / "Size+Layout.swift"
-            argv = ["--sources", str(sources), "--output", str(out), "--layout-output", str(layout_out)]
+            argv = ["--sources", str(sources), "--output", str(out), "--layout-output", str(layout_out),
+                    "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift")]
             self.assertEqual(main(argv), 0)
             self.assertEqual(main(["--check"] + argv), 0)
             css = (sources / "platform.css").read_text().replace("--layout-inspector-ideal: 300px", "--layout-inspector-ideal: 312px")
@@ -121,6 +122,46 @@ class Layout(unittest.TestCase):
             with contextlib.redirect_stderr(io.StringIO()) as err:
                 self.assertEqual(main(["--check"] + argv), 1)
             self.assertIn("Size+Layout.swift", err.getvalue())
+
+
+class Scalars(unittest.TestCase):
+    def test_rendersSpacingShapeTypographyOpacity(self):
+        swift = generate_themes.render_tokens(generate_themes.load_scalars(SOURCES_DIR), source_commit="9fa9816f")
+        self.assertIn("Platform design-system 9fa9816f", swift)
+        for line in ("extension Tokens.Spacing {", "public static let smMd: Double = 10",
+                     "public static let cardPadding: Double = 16",
+                     "extension Tokens.Shape {", "public static let radiusFull: Double = 9999",
+                     "public static let strokeMedLight: Double = 1.5",
+                     "extension Tokens.Typography.Size {", "public static let displayXL: Double = 80",
+                     "extension Tokens.Typography.Weight {", "public static let semibold = 600",
+                     "extension Tokens.Typography.LineHeight {", "public static let relaxed: Double = 1.5",
+                     "extension Tokens.Typography.Tracking {", "public static let caps: Double = 0.5",
+                     "extension Tokens.Opacity {", "public static let glassHighlight: Double = 0.15",
+                     '"SF Mono", "ui-monospace", "Menlo", "Consolas", "monospace"'):
+            self.assertIn(line, swift)
+
+    def test_unknownTokenFailsLoudly(self):
+        scalars = generate_themes.load_scalars(SOURCES_DIR)
+        del scalars["sp-md"]
+        with self.assertRaises(UnresolvableToken) as cm:
+            generate_themes.render_tokens(scalars, source_commit="x")
+        self.assertIn("sp-md", str(cm.exception))
+
+    def test_checkCoversTokensOutput(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
+            argv = ["--sources", str(sources), "--output", str(Path(tmp) / "a.swift"),
+                    "--layout-output", str(Path(tmp) / "b.swift"), "--tokens-output", str(Path(tmp) / "Tokens+Generated.swift")]
+            self.assertEqual(main(argv), 0)
+            self.assertEqual(main(["--check"] + argv), 0)
+            data = json.loads((sources / "tokens.json").read_text())
+            for token in data["spacing"]["tokens"]:
+                if token["name"] == "sp-md":
+                    token["value"] = "14px"
+            (sources / "tokens.json").write_text(json.dumps(data))
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                self.assertEqual(main(["--check"] + argv), 1)
+            self.assertIn("Tokens+Generated.swift", err.getvalue())
 
 
 if __name__ == "__main__":

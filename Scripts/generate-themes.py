@@ -7,8 +7,9 @@
                                  SOURCE.md, then regenerate
     --check                      regenerate in memory and fail (exit 1) if the committed
                                  Swift differs
-    (no flags)                   regenerate Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift
-                                 and Sources/DesignKitTokens/Size+Layout.swift
+    (no flags)                   regenerate Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift,
+                                 Sources/DesignKitTokens/Size+Layout.swift and
+                                 Sources/DesignKitTokens/Tokens+Generated.swift
 
 Exit 2 when a token or alias cannot be resolved. Standard library only.
 """
@@ -25,6 +26,7 @@ SCRIPTS_DIR = Path(__file__).resolve().parent
 SOURCES_DIR = SCRIPTS_DIR / "token-sources"
 OUTPUT = SCRIPTS_DIR.parent / "Sources" / "DesignKitThemes" / "Themes" / "Theme+ReadyRoom.swift"
 LAYOUT_OUTPUT = SCRIPTS_DIR.parent / "Sources" / "DesignKitTokens" / "Size+Layout.swift"
+TOKENS_OUTPUT = SCRIPTS_DIR.parent / "Sources" / "DesignKitTokens" / "Tokens+Generated.swift"
 
 # The design system's theme keys are historical: "light" is the DARK base theme,
 # "root-light" is the light theme. A value missing from root-light inherits the base.
@@ -53,6 +55,52 @@ LAYOUT_MAP = {
     "layout-sheet-w": "sheetWidth",
     "layout-sheet-max-h": "sheetMaxHeight",
 }
+
+# Design-system scalar token -> (Swift enum, member, kind). kind: "double" (px or a bare
+# number), "int" (a weight) or "stack" (a CSS font list). Constants with no token
+# (Tracking.tight, Size.*) stay hand-written in their enums. Every row is reviewable.
+SCALAR_MAP = [
+    ("Spacing", "xxxs", "sp-xxxs", "double"), ("Spacing", "xxs", "sp-xxs", "double"),
+    ("Spacing", "xs", "sp-xs", "double"), ("Spacing", "sm", "sp-sm", "double"),
+    ("Spacing", "smMd", "sp-smMd", "double"), ("Spacing", "md", "sp-md", "double"),
+    ("Spacing", "lg", "sp-lg", "double"), ("Spacing", "xl", "sp-xl", "double"),
+    ("Spacing", "xxl", "sp-xxl", "double"), ("Spacing", "xxxl", "sp-xxxl", "double"),
+    ("Spacing", "cardPadding", "sp-card-padding", "double"), ("Spacing", "section", "sp-section", "double"),
+    ("Spacing", "content", "sp-content", "double"),
+    ("Shape", "radiusXS", "radius-xs", "double"), ("Shape", "radiusSM", "radius-sm", "double"),
+    ("Shape", "radiusMD", "radius-md", "double"), ("Shape", "radiusLG", "radius-lg", "double"),
+    ("Shape", "radiusXL", "radius-xl", "double"), ("Shape", "radiusXXL", "radius-xxl", "double"),
+    ("Shape", "radiusChip", "radius-chip", "double"), ("Shape", "radiusWindow", "radius-window", "double"),
+    ("Shape", "radiusFull", "radius-full", "double"),
+    ("Shape", "strokeHairline", "stroke-hairline", "double"), ("Shape", "strokeThin", "stroke-thin", "double"),
+    ("Shape", "strokeMedLight", "stroke-med-light", "double"), ("Shape", "strokeMedium", "stroke-medium", "double"),
+    ("Shape", "strokeThick", "stroke-thick", "double"), ("Shape", "strokeRing", "stroke-ring", "double"),
+    ("Typography", "fontSansStack", "type.families.sans", "stack"),
+    ("Typography", "fontDisplayStack", "type.families.display", "stack"),
+    ("Typography", "fontRoundedStack", "type.families.rounded", "stack"),
+    ("Typography", "fontMonoStack", "type.families.mono", "stack"),
+    ("Typography.Size", "displayXL", "fs-display-xl", "double"), ("Typography.Size", "displayLG", "fs-display-lg", "double"),
+    ("Typography.Size", "displayMD", "fs-display-md", "double"), ("Typography.Size", "displaySM", "fs-display-sm", "double"),
+    ("Typography.Size", "titleXL", "fs-title-xl", "double"), ("Typography.Size", "titleLG", "fs-title-lg", "double"),
+    ("Typography.Size", "titleMD", "fs-title-md", "double"), ("Typography.Size", "titleSM", "fs-title-sm", "double"),
+    ("Typography.Size", "headingLG", "fs-heading-lg", "double"), ("Typography.Size", "headingMD", "fs-heading-md", "double"),
+    ("Typography.Size", "bodyLG", "fs-body-lg", "double"), ("Typography.Size", "bodyMD", "fs-body-md", "double"),
+    ("Typography.Size", "bodySM", "fs-body-sm", "double"), ("Typography.Size", "captionLG", "fs-caption-lg", "double"),
+    ("Typography.Size", "captionMD", "fs-caption-md", "double"), ("Typography.Size", "overline", "fs-overline", "double"),
+    ("Typography.Weight", "regular", "fw-regular", "int"), ("Typography.Weight", "medium", "fw-medium", "int"),
+    ("Typography.Weight", "semibold", "fw-semibold", "int"), ("Typography.Weight", "bold", "fw-bold", "int"),
+    ("Typography.LineHeight", "tight", "lh-tight", "double"), ("Typography.LineHeight", "normal", "lh-normal", "double"),
+    ("Typography.LineHeight", "relaxed", "lh-relaxed", "double"),
+    ("Typography.Tracking", "caps", "tracking-caps", "double"),
+    ("Opacity", "faint", "op-faint", "double"), ("Opacity", "dim", "op-dim", "double"),
+    ("Opacity", "subtle", "op-subtle", "double"), ("Opacity", "mist", "op-mist", "double"),
+    ("Opacity", "soft", "op-soft", "double"), ("Opacity", "tint", "op-tint", "double"),
+    ("Opacity", "glassFill", "op-glass-fill", "double"), ("Opacity", "glassBorder", "op-glass-border", "double"),
+    ("Opacity", "glassHighlight", "op-glass-highlight", "double"), ("Opacity", "light", "op-light", "double"),
+    ("Opacity", "disabled", "op-disabled", "double"), ("Opacity", "medium", "op-medium", "double"),
+    ("Opacity", "strong", "op-strong", "double"), ("Opacity", "heavy", "op-heavy", "double"),
+    ("Opacity", "near", "op-near", "double"),
+]
 
 # The 29 Zed-named syntax keys DesignKit's themes carry; CodeEditorKit looks them up by name.
 SYNTAX_KEYS = [
@@ -326,6 +374,62 @@ def render_layout(layout, source_commit):
     return "\n".join(lines)
 
 
+# ---------------------------------------------------------------- scalars
+
+def load_scalars(sources_dir):
+    """Every named scalar token in tokens.json's families, plus type.families.* stacks."""
+    data = json.loads((Path(sources_dir) / "tokens.json").read_text())
+    scalars = {}
+    for family in data.values():
+        if isinstance(family, dict):
+            for token in family.get("tokens", []):
+                name = token.get("name")
+                if name and isinstance(token.get("value"), (str, int, float)):
+                    scalars.setdefault(str(name), token["value"])
+    for key, value in data.get("type", {}).get("families", {}).items():
+        scalars[f"type.families.{key}"] = value
+    return scalars
+
+
+def _number(text, name):
+    m = re.fullmatch(r"\s*(-?[0-9]+(?:\.[0-9]+)?)(?:px)?\s*", str(text))
+    if not m:
+        raise UnresolvableToken(f"{name}: not a number ({text!r})")
+    value = float(m.group(1))
+    return int(value) if value.is_integer() else value
+
+
+def _stack(text):
+    return [part.strip().strip('"').strip("'") for part in str(text).split(",") if part.strip()]
+
+
+def render_tokens(scalars, source_commit):
+    lines = [
+        f"// GENERATED by Scripts/generate-themes.py from Scripts/token-sources (Platform design-system {source_commit}). Do not edit; run --sync.",
+        "",
+    ]
+    current = None
+    for enum, member, token, kind in SCALAR_MAP:
+        if token not in scalars:
+            raise UnresolvableToken(f"scalar token {token} not found in tokens.json")
+        if enum != current:
+            if current is not None:
+                lines += ["}", ""]
+            lines.append(f"extension Tokens.{enum} {{")
+            current = enum
+        value = scalars[token]
+        lines.append(f"    /// `{token}`.")
+        if kind == "stack":
+            items = ", ".join(f'"{part}"' for part in _stack(value))
+            lines.append(f"    public static let {member}: [String] = [{items}]")
+        elif kind == "int":
+            lines.append(f"    public static let {member} = {int(_number(value, token))}")
+        else:
+            lines.append(f"    public static let {member}: Double = {_number(value, token)}")
+    lines += ["}", ""]
+    return "\n".join(lines)
+
+
 # ---------------------------------------------------------------- CLI
 
 def _source_commit(sources_dir):
@@ -364,6 +468,7 @@ def main(argv=None):
     parser.add_argument("--sources", metavar="DIR", default=str(SOURCES_DIR))
     parser.add_argument("--output", metavar="FILE", default=str(OUTPUT))
     parser.add_argument("--layout-output", metavar="FILE", default=str(LAYOUT_OUTPUT))
+    parser.add_argument("--tokens-output", metavar="FILE", default=str(TOKENS_OUTPUT))
     args = parser.parse_args(argv)
     sources_dir = Path(args.sources)
     try:
@@ -375,6 +480,7 @@ def main(argv=None):
         outputs = [
             (Path(args.output), render(load_tokens(sources_dir), commit)),
             (Path(args.layout_output), render_layout(load_layout(sources_dir), commit)),
+            (Path(args.tokens_output), render_tokens(load_scalars(sources_dir), commit)),
         ]
     except UnresolvableToken as e:
         print(f"generate-themes: {e}", file=sys.stderr)

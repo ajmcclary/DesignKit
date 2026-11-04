@@ -9,15 +9,24 @@ Shared design system for CodeEditorKit, DiagramKit, and RepoPrompt.
 The theme values are generated from the Apple Systems design system's token
 files (`semantic.json`, `tokens.json`, `type-scales.json`), vendored under
 `Scripts/token-sources/` with the design-system commit recorded in
-`SOURCE.md`. `Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift` is the
-generated output and is committed; never edit it by hand.
+`SOURCE.md` (plus `platform.css` for the layout values it alone carries). The
+generated outputs are committed and never edited by hand:
+
+- `Sources/DesignKitThemes/Themes/Theme+ReadyRoom.swift` — the dark and light themes;
+- `Sources/DesignKitTokens/Size+Layout.swift` — window and pane metrics (`layout-*`);
+- `Sources/DesignKitTokens/Tokens+Generated.swift` — spacing, radii and strokes,
+  type sizes / weights / line heights / tracking / font stacks, and opacities.
+
+The hand-written token files hold only the enum namespaces and the constants the
+design system has no token for.
 
 - Refresh from a local Platform checkout:
   `python3 -I Scripts/generate-themes.py --sync --design-system <Platform>/projects/design-system`
 - Verify the committed Swift matches the vendored sources (CI runs this):
   `python3 -I Scripts/generate-themes.py --check`
-- The role-to-token mapping lives in `render()` inside the generator; change
-  it there, regenerate, and review the Swift diff.
+- The role-to-token mapping lives in `render()` inside the generator, and the
+  scalar mapping in `SCALAR_MAP`; change it there, regenerate, and review the
+  Swift diff.
 
 ## Usage
 

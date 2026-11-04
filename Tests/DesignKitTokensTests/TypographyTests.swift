@@ -5,10 +5,12 @@ import Testing
 struct TypographyTests {
     @Test("font stacks lead with Apple system fonts")
     func fontStacks() {
-        #expect(Tokens.Typography.fontSansStack.first == "-apple-system")
-        #expect(Tokens.Typography.fontDisplayStack.first == "-apple-system")
-        #expect(Tokens.Typography.fontMonoStack.first == "ui-monospace")
-        #expect(Tokens.Typography.fontRoundedStack.first == "ui-rounded")
+        // The design system's type.families (DesignKit 3.0.0 generates them).
+        #expect(Tokens.Typography.fontSansStack.first == "SF Pro Text")
+        #expect(Tokens.Typography.fontDisplayStack.first == "SF Pro Display")
+        #expect(Tokens.Typography.fontMonoStack.first == "SF Mono")
+        #expect(Tokens.Typography.fontRoundedStack.first == "SF Pro Rounded")
+        #expect(Tokens.Typography.fontMonoStack == ["SF Mono", "ui-monospace", "Menlo", "Consolas", "monospace"])
     }
 
     @Test("type scale matches CSS source")
