@@ -41,7 +41,7 @@ public struct ThemeStyle: Hashable, Sendable {
     public let accents: [Tokens.Color]
     /// Per-token syntax styles, keyed verbatim by Zed token name.
     public let syntax: [String: SyntaxStyle]
-    /// Optional terminal palette (future-compat).
+    /// Optional terminal palette (terminal rendering).
     public let terminal: TerminalColors?
 
     /// Memberwise builder.

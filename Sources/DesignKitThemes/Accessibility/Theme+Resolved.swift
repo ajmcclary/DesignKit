@@ -25,9 +25,9 @@ extension Theme {
         appearance: Appearance,
         ratio: Double = 4.5
     ) -> Tokens.Color {
-        guard WCAG.contrastRatio(color, background) < ratio else { return color }
+        guard WCAG.displayedContrast(color, on: background) < ratio else { return color }
         let pole = Tokens.Color(hex: appearance == .dark ? 0xFFFFFF : 0x000000)
-        guard WCAG.contrastRatio(pole, background) >= ratio else {
+        guard WCAG.displayedContrast(pole, on: background) >= ratio else {
             // Background itself is too close to the pole; hardening toward it
             // can't help — return the pole as the best available.
             return pole
@@ -36,7 +36,7 @@ extension Theme {
         var hi = 1.0
         for _ in 0..<24 {
             let mid = (lo + hi) / 2
-            if WCAG.contrastRatio(color.mixed(with: pole, amount: mid), background) >= ratio {
+            if WCAG.displayedContrast(color.mixed(with: pole, amount: mid), on: background) >= ratio {
                 hi = mid
             } else {
                 lo = mid
@@ -122,7 +122,7 @@ extension Theme {
             vcs: style.vcs,
             scrollbar: style.scrollbar,
             search: style.search,
-            predictive: style.predictive,
+            predictive: PredictiveColors(base: harden(style.predictive.base, on: editorBG), background: style.predictive.background, border: style.predictive.border),
             hint: style.hint,
             dropTarget: style.dropTarget,
             linkTextHover: harden(style.linkTextHover, on: bg),

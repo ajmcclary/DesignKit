@@ -13,11 +13,11 @@ struct ContrastGateTests {
     func primaryTextMeetsAA() {
         for theme in Theme.all where !Self.knownExceptions.contains(theme.name) {
             #expect(
-                WCAG.contrastRatio(theme.style.text.base, theme.style.background) >= 4.5,
+                WCAG.displayedContrast(theme.style.text.base, on: theme.style.background) >= 4.5,
                 "\(theme.name) text.base"
             )
             #expect(
-                WCAG.contrastRatio(theme.style.editor.foreground, theme.style.editor.background) >= 4.5,
+                WCAG.displayedContrast(theme.style.editor.foreground, on: theme.style.editor.background) >= 4.5,
                 "\(theme.name) editor.foreground"
             )
         }
@@ -27,7 +27,7 @@ struct ContrastGateTests {
     func mutedTextMeetsLargeTextFloor() {
         for theme in Theme.all where !Self.knownExceptions.contains(theme.name) {
             #expect(
-                WCAG.contrastRatio(theme.style.text.muted, theme.style.background) >= 3.0,
+                WCAG.displayedContrast(theme.style.text.muted, on: theme.style.background) >= 3.0,
                 "\(theme.name) text.muted"
             )
         }
@@ -40,7 +40,7 @@ struct ContrastGateTests {
                         "constant", "property", "variable", "punctuation", "tag", "attribute"] {
                 let resolved = theme.resolveSyntaxColor(for: key)
                 #expect(
-                    WCAG.contrastRatio(resolved, theme.style.editor.background) >= 3.0,
+                    WCAG.displayedContrast(resolved, on: theme.style.editor.background) >= 3.0,
                     "\(theme.name)/\(key)"
                 )
             }

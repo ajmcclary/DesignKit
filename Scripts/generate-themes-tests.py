@@ -93,6 +93,17 @@ class Layout(unittest.TestCase):
         self.assertEqual(layout["layout-inspector-ideal"], 300)  # platform.css, not tokens.json
         self.assertEqual(layout["layout-window-min-w"], 960)
 
+    def test_conflicting_and_scoped_layout_declarations_are_refused(self):
+        for extra in (":root { --layout-sidebar-ideal: 180px; }",
+                      ".compact { --layout-sidebar-ideal: 180px; }",
+                      "@media (max-width: 800px) { :root { --layout-sidebar-ideal: 180px; } }"):
+            with tempfile.TemporaryDirectory() as tmp:
+                sources = Path(shutil.copytree(SOURCES_DIR, Path(tmp) / "token-sources"))
+                css = sources / "platform.css"
+                css.write_text(css.read_text() + "\n" + extra)
+                with self.assertRaises(UnresolvableToken):
+                    generate_themes.load_layout(sources)
+
     def test_layout_render(self):
         swift = generate_themes.render_layout(generate_themes.load_layout(SOURCES_DIR), source_commit="9fa9816f")
         self.assertIn("9fa9816f", swift.splitlines()[0])

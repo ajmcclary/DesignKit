@@ -5,6 +5,21 @@ All notable changes to DesignKit are documented here. This project adheres to
 
 ## [Unreleased]
 
+## [3.0.1] - 2026-11-09
+
+### Fixed
+
+- Measure displayed foreground contrast after alpha compositing. Increase
+  Contrast now hardens translucent roles, including predictive text.
+- Map readable line numbers, placeholders, ghost text and ignored-file names
+  to the secondary foreground token. Terminal slots clear displayed contrast
+  on both backgrounds; bright slots remain distinct.
+- Use the control accent for SwiftUI tint and the matching light ANSI palette
+  for derived light themes. Remove retired family preferences on migration.
+- Reject ambiguous, conflicting and responsive CSS layout overrides in the
+  token generator instead of silently changing Swift metrics.
+
+
 ## [3.0.0] - 2026-11-04
 
 The final 3.0.0: every DesignKit token value the design system defines is now

@@ -49,7 +49,7 @@ final class UserDefaultsThemeSelectionPersistenceTests: XCTestCase {
         let persistence = UserDefaultsThemeSelectionPersistence(defaults: defaults)
         XCTAssertEqual(persistence.loadSelection(), ThemeSelection(appearance: .dark))
         persistence.saveAppearance(.system)
-        XCTAssertEqual(defaults.string(forKey: "designKit.themeSelection.family"), "legacy-family") // never touched
+        XCTAssertNil(defaults.object(forKey: "designKit.themeSelection.family"))
     }
 
     func test_configurableKey() {

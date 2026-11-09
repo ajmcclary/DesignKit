@@ -13,10 +13,10 @@ struct AccessibilityTests {
         for theme in Theme.all {
             let hard = theme.resolved(for: AccessibilityPreferences(increaseContrast: true))
             let bg = hard.style.background
-            #expect(WCAG.contrastRatio(hard.style.text.base, bg) >= 4.5, "\(theme.name) text.base")
-            #expect(WCAG.contrastRatio(hard.style.text.muted, bg) >= 4.5, "\(theme.name) text.muted")
+            #expect(WCAG.displayedContrast(hard.style.text.base, on: bg) >= 4.5, "\(theme.name) text.base")
+            #expect(WCAG.displayedContrast(hard.style.text.muted, on: bg) >= 4.5, "\(theme.name) text.muted")
             #expect(
-                WCAG.contrastRatio(hard.style.editor.foreground, hard.style.editor.background) >= 4.5,
+                WCAG.displayedContrast(hard.style.editor.foreground, on: hard.style.editor.background) >= 4.5,
                 "\(theme.name) editor.foreground"
             )
         }

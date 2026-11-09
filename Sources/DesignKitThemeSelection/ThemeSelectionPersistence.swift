@@ -2,7 +2,7 @@ import DesignKitThemes
 import Foundation
 
 /// Storage for a `ThemeSelection`. App adapters can mirror the appearance onto
-/// an existing store. The DesignKit 2 family key is never read or written.
+/// an existing store. The retired DesignKit 2 family key is removed without reading it.
 /// MainActor-bound: the controller only calls it from the main actor, and app
 /// stores (settings singletons, UserDefaults mirrors) are main-thread surfaces.
 @MainActor
@@ -25,6 +25,7 @@ public struct UserDefaultsThemeSelectionPersistence: ThemeSelectionPersistence {
     ) {
         self.defaults = defaults
         self.appearanceKey = appearanceKey
+        if appearanceKey == Self.defaultAppearanceKey { defaults.removeObject(forKey: "designKit.themeSelection.family") }
     }
 
     /// nil when nothing parseable is stored under the appearance key.

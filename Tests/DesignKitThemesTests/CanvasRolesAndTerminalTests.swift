@@ -8,14 +8,27 @@ import Testing
 	@Test func lightTerminalUsesLightAccents() throws {
 		let light = try #require(Theme.light.style.terminal?.ansi)
 		#expect(light.red == Tokens.Color(hex: 0xFF383C))
-		#expect(light.green == Tokens.Color(hex: 0x34C759))
+		#expect(WCAG.displayedContrast(try #require(light.green), on: Theme.light.style.background) >= 3)
 		#expect(light.blue == Tokens.Color(hex: 0x1E6EF4))
 		#expect(light.magenta == Tokens.Color(hex: 0xCB30E0))
 		#expect(light.black == Tokens.Color(hex: 0x000000))
-		#expect(light.white == Tokens.Color(hex: 0xFFFFFF))
-		#expect(light.brightRed == light.red)
+		#expect(WCAG.displayedContrast(try #require(light.white), on: Theme.light.style.background) >= 3)
+		#expect(light.brightRed != light.red)
 		let dark = try #require(Theme.dark.style.terminal?.ansi)
 		#expect(dark.red == Tokens.Color(hex: 0xF44747), "dark keeps ansi-*")
+	}
+
+	@Test func readableRolesClearContrastOnBothThemes() {
+		for theme in [Theme.dark, Theme.light] {
+			let style = theme.style
+			for color in [style.editor.lineNumber, style.text.placeholder, style.icon.placeholder, style.predictive.base, style.vcs.ignored.base] {
+				#expect(WCAG.displayedContrast(color, on: style.background) >= 4.5)
+			}
+			let hard = theme.resolved(for: AccessibilityPreferences(increaseContrast: true))
+			#expect(WCAG.displayedContrast(hard.style.text.placeholder, on: style.background) >= 3)
+			#expect(WCAG.displayedContrast(hard.style.predictive.base, on: style.background) >= 4.5)
+			#expect(style.terminal?.ansi?.black != style.background)
+		}
 	}
 
 	@Test func canvasRoles() {

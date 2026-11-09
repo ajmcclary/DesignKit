@@ -264,8 +264,12 @@ def _render_theme(tokens, name, theme, appearance):
         syntax_lines.append(f'            "{key}": SyntaxStyle(color: {color}{SYNTAX_EXTRA.get(key, "")}),')
 
     ansi_token = (lambda k: LIGHT_ANSI[k]) if theme == LIGHT else (lambda k: "ansi-" + k)
-    ansi_args = ", ".join(f"{k}: {c(ansi_token(k))}" for k in ANSI)
-    bright_args = ", ".join(f"bright{k.capitalize()}: {c(ansi_token(k))}" for k in ANSI)
+    def terminal_color(k):
+        # The ANSI black slot must remain visible on the dark terminal surface.
+        token = 'fg-secondary' if theme == DARK and k == 'black' else ansi_token(k)
+        return f"Theme.hardened({c(token)}, against: {c('bg')}, appearance: .{appearance}, ratio: 3.0)"
+    ansi_args = ", ".join(f"{k}: {terminal_color(k)}" for k in ANSI)
+    bright_args = ", ".join(f"bright{k.capitalize()}: {terminal_color(k)}.mixed(with: {c('fg')}, amount: 0.2)" for k in ANSI)
     lower = appearance
     return [
         f"    private static let {lower}Style = ThemeStyle(",
@@ -277,7 +281,7 @@ def _render_theme(tokens, name, theme, appearance):
         f"            activeLineBackground: {c('fill-tertiary')},",   # neutral: must differ from the selection (row-selected)
         f"            highlightedLineBackground: {c('fill-secondary')},",
         f"            activeLineNumber: {c('fg')},",
-        f"            lineNumber: {c('fg-tertiary')},",
+        f"            lineNumber: {c('fg-secondary')},",
         f"            invisible: {c('fg-disabled')},",
         f"            indentGuide: {c('border-hairline')},",
         f"            indentGuideActive: {c('border-strong')},",
@@ -320,8 +324,8 @@ def _render_theme(tokens, name, theme, appearance):
         f"            variant: {c('border-hairline')},",
         f"            strong: {c('border-strong')}",
         "        ),",
-        f"        text: TextLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-tertiary')}, disabled: {c('fg-disabled')}, accent: {c('accent-text')}),",
-        f"        icon: IconLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-tertiary')}, disabled: {c('fg-disabled')}, accent: {c('accent')}),",
+        f"        text: TextLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-secondary')}, disabled: {c('fg-disabled')}, accent: {c('accent-text')}),",
+        f"        icon: IconLevels(base: {c('fg')}, muted: {c('fg-secondary')}, placeholder: {c('fg-secondary')}, disabled: {c('fg-disabled')}, accent: {c('accent')}),",
         "        status: StatusPalette(",
         f"            info: {info},",
         f"            success: {status('status-success-fg', 'status-success')},",
@@ -334,13 +338,13 @@ def _render_theme(tokens, name, theme, appearance):
         f"            modified: {vcs('status-warning-fg', 'status-warning')},",
         f"            deleted: {vcs('status-error-fg', 'status-error')},",
         f"            renamed: {info_vcs},",
-        f"            ignored: {vcs_muted('fg-tertiary')},",
+        f"            ignored: {vcs_muted('fg-secondary')},",
         f"            hidden: {vcs_muted('fg-disabled')},",
         f"            unreachable: {vcs_muted('fg-disabled')}",
         "        ),",
         f"        scrollbar: ScrollbarColors(trackBackground: {TRANSPARENT}, trackBorder: {TRANSPARENT}, thumbBackground: {c('fill-secondary')}, thumbBorder: {TRANSPARENT}, thumbHoverBackground: {c('fill-primary')}),",
         f"        search: SearchColors(matchBackground: {c('btn-tonal-fill')}),",
-        f"        predictive: PredictiveColors(base: {c('fg-tertiary')}, background: {TRANSPARENT}, border: {TRANSPARENT}),",
+        f"        predictive: PredictiveColors(base: {c('fg-secondary')}, background: {TRANSPARENT}, border: {TRANSPARENT}),",
         f"        hint: HintColors(base: {c('fg-secondary')}, background: {c('fill-quaternary')}, border: {TRANSPARENT}),",
         f"        dropTarget: {c('btn-tonal-fill')},",
         f"        linkTextHover: {c('accent-text')},",
@@ -390,8 +394,21 @@ def load_layout(sources_dir):
                 if name.startswith("layout-"):
                     layout[name] = _px(token["value"], name)
     css = (sources_dir / "platform.css").read_text()
-    for name, value in re.findall(r"--(layout-[a-z0-9-]+)\s*:\s*([^;]+);", css):
-        layout[name] = _px(value, name)
+    # Layout is platform-independent. Responsive or selector-specific overrides
+    # are ambiguous for Swift and must never silently replace the canonical value.
+    root_matches = list(re.finditer(r"(?<![\w.-]):root\s*\{([^{}]*)\}", css))
+    if any(css[:m.start()].count("{") != css[:m.start()].count("}") for m in root_matches):
+        raise UnresolvableToken("layout :root declarations must be top-level")
+    roots = [m.group(1) for m in root_matches]
+    root_declarations = re.findall(r"--(layout-[a-z0-9-]+)\s*:\s*([^;]+);", "\n".join(roots))
+    all_declarations = re.findall(r"--(layout-[a-z0-9-]+)\s*:\s*([^;]+);", css)
+    if all_declarations != root_declarations:
+        raise UnresolvableToken("layout tokens must be declared only in :root")
+    for name, value in root_declarations:
+        value = _px(value, name)
+        if name in layout and layout[name] != value:
+            raise UnresolvableToken(f"{name}: conflicting layout declarations")
+        layout[name] = value
     return layout
 
 

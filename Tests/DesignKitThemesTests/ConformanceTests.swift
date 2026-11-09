@@ -32,7 +32,7 @@ struct ConformanceTests {
             foreground: Tokens.Color(hex: 0xFFFFFF),
             accent: Tokens.Color(hex: 0x0A84FF)
         )
-        _ = WCAG.contrastRatio(Tokens.Color(hex: 0x000000), Tokens.Color(hex: 0xFFFFFF))
+        _ = WCAG.displayedContrast(Tokens.Color(hex: 0x000000), on: Tokens.Color(hex: 0xFFFFFF))
         _ = AccessibilityPreferences(increaseContrast: true, reduceTransparency: true, reduceMotion: true)
         #expect(Bool(true))
     }

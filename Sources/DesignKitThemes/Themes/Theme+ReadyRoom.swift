@@ -11,7 +11,7 @@ extension Theme {
             activeLineBackground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.05),
             highlightedLineBackground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08),
             activeLineNumber: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85),
-            lineNumber: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25),
+            lineNumber: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55),
             invisible: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15),
             indentGuide: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08),
             indentGuideActive: Tokens.Color(hex: 0xFFFFFF, alpha: 0.35),
@@ -54,8 +54,8 @@ extension Theme {
             variant: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08),
             strong: Tokens.Color(hex: 0xFFFFFF, alpha: 0.35)
         ),
-        text: TextLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
-        icon: IconLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
+        text: TextLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
+        icon: IconLevels(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), muted: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), placeholder: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), disabled: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), accent: Tokens.Color(hex: 0x0A99FF)),
         status: StatusPalette(
             info: StatusPalette.Status(base: Tokens.Color(hex: 0x0A99FF), background: Tokens.Color(hex: 0x0A99FF, alpha: 0.2), border: Tokens.Color(hex: 0x0A99FF)),
             success: StatusPalette.Status(base: Tokens.Color(hex: 0x30D158), background: Tokens.Color(hex: 0x30D158, alpha: 0.14), border: Tokens.Color(hex: 0x30D158)),
@@ -68,13 +68,13 @@ extension Theme {
             modified: VCSPalette.VCS(base: Tokens.Color(hex: 0xFF9F0A), background: Tokens.Color(hex: 0xFF9F0A, alpha: 0.14), border: Tokens.Color(hex: 0xFF9F0A)),
             deleted: VCSPalette.VCS(base: Tokens.Color(hex: 0xFF6961), background: Tokens.Color(hex: 0xFF453A, alpha: 0.14), border: Tokens.Color(hex: 0xFF453A)),
             renamed: VCSPalette.VCS(base: Tokens.Color(hex: 0x0A99FF), background: Tokens.Color(hex: 0x0A99FF, alpha: 0.2), border: Tokens.Color(hex: 0x0A99FF)),
-            ignored: VCSPalette.VCS(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
+            ignored: VCSPalette.VCS(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
             hidden: VCSPalette.VCS(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
             unreachable: VCSPalette.VCS(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.15), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0))
         ),
         scrollbar: ScrollbarColors(trackBackground: Tokens.Color(hex: 0x000000, alpha: 0.0), trackBorder: Tokens.Color(hex: 0x000000, alpha: 0.0), thumbBackground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.08), thumbBorder: Tokens.Color(hex: 0x000000, alpha: 0.0), thumbHoverBackground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.1)),
         search: SearchColors(matchBackground: Tokens.Color(hex: 0x0A99FF, alpha: 0.2)),
-        predictive: PredictiveColors(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.25), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
+        predictive: PredictiveColors(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
         hint: HintColors(base: Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), background: Tokens.Color(hex: 0xFFFFFF, alpha: 0.03), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
         dropTarget: Tokens.Color(hex: 0x0A99FF, alpha: 0.2),
         linkTextHover: Tokens.Color(hex: 0x0A99FF),
@@ -111,7 +111,7 @@ extension Theme {
             "variable.special": SyntaxStyle(color: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85)),
             "variant": SyntaxStyle(color: Tokens.Color(hex: 0x0A99FF)),
         ],
-        terminal: TerminalColors(foreground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), background: Tokens.Color(hex: 0x1E1E1E), ansi: TerminalColors.ANSI(black: Tokens.Color(hex: 0x1E1E1E), red: Tokens.Color(hex: 0xF44747), green: Tokens.Color(hex: 0x6A9955), yellow: Tokens.Color(hex: 0xD7BA7D), blue: Tokens.Color(hex: 0x569CD6), magenta: Tokens.Color(hex: 0xC39BD3), cyan: Tokens.Color(hex: 0x4DD0E1), white: Tokens.Color(hex: 0xD4D4D4), brightBlack: Tokens.Color(hex: 0x1E1E1E), brightRed: Tokens.Color(hex: 0xF44747), brightGreen: Tokens.Color(hex: 0x6A9955), brightYellow: Tokens.Color(hex: 0xD7BA7D), brightBlue: Tokens.Color(hex: 0x569CD6), brightMagenta: Tokens.Color(hex: 0xC39BD3), brightCyan: Tokens.Color(hex: 0x4DD0E1), brightWhite: Tokens.Color(hex: 0xD4D4D4)))
+        terminal: TerminalColors(foreground: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), background: Tokens.Color(hex: 0x1E1E1E), ansi: TerminalColors.ANSI(black: Theme.hardened(Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), red: Theme.hardened(Tokens.Color(hex: 0xF44747), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), green: Theme.hardened(Tokens.Color(hex: 0x6A9955), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), yellow: Theme.hardened(Tokens.Color(hex: 0xD7BA7D), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), blue: Theme.hardened(Tokens.Color(hex: 0x569CD6), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), magenta: Theme.hardened(Tokens.Color(hex: 0xC39BD3), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), cyan: Theme.hardened(Tokens.Color(hex: 0x4DD0E1), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), white: Theme.hardened(Tokens.Color(hex: 0xD4D4D4), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0), brightBlack: Theme.hardened(Tokens.Color(hex: 0xFFFFFF, alpha: 0.55), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightRed: Theme.hardened(Tokens.Color(hex: 0xF44747), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightGreen: Theme.hardened(Tokens.Color(hex: 0x6A9955), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightYellow: Theme.hardened(Tokens.Color(hex: 0xD7BA7D), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightBlue: Theme.hardened(Tokens.Color(hex: 0x569CD6), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightMagenta: Theme.hardened(Tokens.Color(hex: 0xC39BD3), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightCyan: Theme.hardened(Tokens.Color(hex: 0x4DD0E1), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2), brightWhite: Theme.hardened(Tokens.Color(hex: 0xD4D4D4), against: Tokens.Color(hex: 0x1E1E1E), appearance: .dark, ratio: 3.0).mixed(with: Tokens.Color(hex: 0xFFFFFF, alpha: 0.85), amount: 0.2)))
     )
 
     private static let darkGlass: GlassStyle = {
@@ -137,7 +137,7 @@ extension Theme {
             activeLineBackground: Tokens.Color(hex: 0x000000, alpha: 0.05),
             highlightedLineBackground: Tokens.Color(hex: 0x000000, alpha: 0.08),
             activeLineNumber: Tokens.Color(hex: 0x000000, alpha: 0.85),
-            lineNumber: Tokens.Color(hex: 0x000000, alpha: 0.25),
+            lineNumber: Tokens.Color(hex: 0x000000, alpha: 0.56),
             invisible: Tokens.Color(hex: 0x000000, alpha: 0.18),
             indentGuide: Tokens.Color(hex: 0x000000, alpha: 0.08),
             indentGuideActive: Tokens.Color(hex: 0x000000, alpha: 0.43),
@@ -180,8 +180,8 @@ extension Theme {
             variant: Tokens.Color(hex: 0x000000, alpha: 0.08),
             strong: Tokens.Color(hex: 0x000000, alpha: 0.43)
         ),
-        text: TextLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.25), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0064D6)),
-        icon: IconLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.25), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0078F0)),
+        text: TextLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.56), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0064D6)),
+        icon: IconLevels(base: Tokens.Color(hex: 0x000000, alpha: 0.85), muted: Tokens.Color(hex: 0x000000, alpha: 0.56), placeholder: Tokens.Color(hex: 0x000000, alpha: 0.56), disabled: Tokens.Color(hex: 0x000000, alpha: 0.18), accent: Tokens.Color(hex: 0x0078F0)),
         status: StatusPalette(
             info: StatusPalette.Status(base: Tokens.Color(hex: 0x0078F0), background: Tokens.Color(hex: 0x0078F0, alpha: 0.149), border: Tokens.Color(hex: 0x0078F0)),
             success: StatusPalette.Status(base: Tokens.Color(hex: 0x1E7B34), background: Tokens.Color(hex: 0x299B45, alpha: 0.14), border: Tokens.Color(hex: 0x299B45)),
@@ -194,13 +194,13 @@ extension Theme {
             modified: VCSPalette.VCS(base: Tokens.Color(hex: 0x8A5300), background: Tokens.Color(hex: 0xC57300, alpha: 0.14), border: Tokens.Color(hex: 0xC57300)),
             deleted: VCSPalette.VCS(base: Tokens.Color(hex: 0xB8201A), background: Tokens.Color(hex: 0xFF3B30, alpha: 0.14), border: Tokens.Color(hex: 0xFF3B30)),
             renamed: VCSPalette.VCS(base: Tokens.Color(hex: 0x0078F0), background: Tokens.Color(hex: 0x0078F0, alpha: 0.149), border: Tokens.Color(hex: 0x0078F0)),
-            ignored: VCSPalette.VCS(base: Tokens.Color(hex: 0x000000, alpha: 0.25), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
+            ignored: VCSPalette.VCS(base: Tokens.Color(hex: 0x000000, alpha: 0.56), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
             hidden: VCSPalette.VCS(base: Tokens.Color(hex: 0x000000, alpha: 0.18), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
             unreachable: VCSPalette.VCS(base: Tokens.Color(hex: 0x000000, alpha: 0.18), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0))
         ),
         scrollbar: ScrollbarColors(trackBackground: Tokens.Color(hex: 0x000000, alpha: 0.0), trackBorder: Tokens.Color(hex: 0x000000, alpha: 0.0), thumbBackground: Tokens.Color(hex: 0x000000, alpha: 0.08), thumbBorder: Tokens.Color(hex: 0x000000, alpha: 0.0), thumbHoverBackground: Tokens.Color(hex: 0x000000, alpha: 0.1)),
         search: SearchColors(matchBackground: Tokens.Color(hex: 0x0078F0, alpha: 0.149)),
-        predictive: PredictiveColors(base: Tokens.Color(hex: 0x000000, alpha: 0.25), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
+        predictive: PredictiveColors(base: Tokens.Color(hex: 0x000000, alpha: 0.56), background: Tokens.Color(hex: 0x000000, alpha: 0.0), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
         hint: HintColors(base: Tokens.Color(hex: 0x000000, alpha: 0.56), background: Tokens.Color(hex: 0x000000, alpha: 0.03), border: Tokens.Color(hex: 0x000000, alpha: 0.0)),
         dropTarget: Tokens.Color(hex: 0x0078F0, alpha: 0.149),
         linkTextHover: Tokens.Color(hex: 0x0064D6),
@@ -237,7 +237,7 @@ extension Theme {
             "variable.special": SyntaxStyle(color: Tokens.Color(hex: 0x000000, alpha: 0.85)),
             "variant": SyntaxStyle(color: Tokens.Color(hex: 0x0064D6)),
         ],
-        terminal: TerminalColors(foreground: Tokens.Color(hex: 0x000000, alpha: 0.85), background: Tokens.Color(hex: 0xFFFFFF), ansi: TerminalColors.ANSI(black: Tokens.Color(hex: 0x000000), red: Tokens.Color(hex: 0xFF383C), green: Tokens.Color(hex: 0x34C759), yellow: Tokens.Color(hex: 0xFFCC00), blue: Tokens.Color(hex: 0x1E6EF4), magenta: Tokens.Color(hex: 0xCB30E0), cyan: Tokens.Color(hex: 0x00C0E8), white: Tokens.Color(hex: 0xFFFFFF), brightBlack: Tokens.Color(hex: 0x000000), brightRed: Tokens.Color(hex: 0xFF383C), brightGreen: Tokens.Color(hex: 0x34C759), brightYellow: Tokens.Color(hex: 0xFFCC00), brightBlue: Tokens.Color(hex: 0x1E6EF4), brightMagenta: Tokens.Color(hex: 0xCB30E0), brightCyan: Tokens.Color(hex: 0x00C0E8), brightWhite: Tokens.Color(hex: 0xFFFFFF)))
+        terminal: TerminalColors(foreground: Tokens.Color(hex: 0x000000, alpha: 0.85), background: Tokens.Color(hex: 0xFFFFFF), ansi: TerminalColors.ANSI(black: Theme.hardened(Tokens.Color(hex: 0x000000), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), red: Theme.hardened(Tokens.Color(hex: 0xFF383C), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), green: Theme.hardened(Tokens.Color(hex: 0x34C759), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), yellow: Theme.hardened(Tokens.Color(hex: 0xFFCC00), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), blue: Theme.hardened(Tokens.Color(hex: 0x1E6EF4), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), magenta: Theme.hardened(Tokens.Color(hex: 0xCB30E0), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), cyan: Theme.hardened(Tokens.Color(hex: 0x00C0E8), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), white: Theme.hardened(Tokens.Color(hex: 0xFFFFFF), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0), brightBlack: Theme.hardened(Tokens.Color(hex: 0x000000), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightRed: Theme.hardened(Tokens.Color(hex: 0xFF383C), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightGreen: Theme.hardened(Tokens.Color(hex: 0x34C759), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightYellow: Theme.hardened(Tokens.Color(hex: 0xFFCC00), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightBlue: Theme.hardened(Tokens.Color(hex: 0x1E6EF4), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightMagenta: Theme.hardened(Tokens.Color(hex: 0xCB30E0), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightCyan: Theme.hardened(Tokens.Color(hex: 0x00C0E8), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2), brightWhite: Theme.hardened(Tokens.Color(hex: 0xFFFFFF), against: Tokens.Color(hex: 0xFFFFFF), appearance: .light, ratio: 3.0).mixed(with: Tokens.Color(hex: 0x000000, alpha: 0.85), amount: 0.2)))
     )
 
     private static let lightGlass: GlassStyle = {

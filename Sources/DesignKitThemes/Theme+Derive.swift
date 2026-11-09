@@ -106,16 +106,7 @@ extension Theme {
         let resolvedTerminal = terminal ?? TerminalColors(
             foreground: fg,
             background: bg,
-            ansi: TerminalColors.ANSI(
-                black: Tokens.Palette.ANSI.black,
-                red: Tokens.Palette.ANSI.red,
-                green: Tokens.Palette.ANSI.green,
-                yellow: Tokens.Palette.ANSI.yellow,
-                blue: Tokens.Palette.ANSI.blue,
-                magenta: Tokens.Palette.ANSI.magenta,
-                cyan: Tokens.Palette.ANSI.cyan,
-                white: Tokens.Palette.ANSI.white
-            )
+            ansi: (appearance == .light ? Theme.light : Theme.dark).style.terminal!.ansi
         )
 
         let style = ThemeStyle(

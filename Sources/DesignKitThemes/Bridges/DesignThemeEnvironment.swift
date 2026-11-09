@@ -36,7 +36,7 @@ private struct DesignThemeModifier: ViewModifier {
         )
         content
             .environment(\.designTheme, theme.resolved(for: prefs))
-            .tint(SwiftUI.Color(tokens: theme.style.text.accent))
+            .tint(SwiftUI.Color(tokens: theme.style.icon.accent))
     }
 }
 #endif

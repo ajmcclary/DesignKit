@@ -81,14 +81,4 @@ public struct ChromeColors: Hashable, Sendable {
         self.tertiaryBackground = tertiaryBackground ?? surfaceBackground
     }
 
-    /// Returns true if a flat key falls inside one of the prefixes this
-    /// sub-struct owns.
-    package static func consumes(_ key: String) -> Bool {
-        key.hasPrefix("title_bar.") || key.hasPrefix("tab_bar.")
-            || key.hasPrefix("tab.") || key.hasPrefix("status_bar.")
-            || key.hasPrefix("toolbar.") || key.hasPrefix("surface.")
-            || key.hasPrefix("elevated_surface.") || key.hasPrefix("panel.")
-            || key.hasPrefix("pane.") || key.hasPrefix("pane_group.")
-    }
-
 }
